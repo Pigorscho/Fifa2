@@ -1,0 +1,1 @@
+os = 'Pixel_7_Pro_API_34_'

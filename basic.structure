@@ -1,0 +1,206 @@
+def calculate_y(x):
+    if x < 10000:
+        return 700
+    m = 0.01
+    c = 700.0
+    return m * x + c
+
+ToDo:
+    implement restart_app() and restart_emu()
+
+
+
+class Panic():
+    int PANIC_THRESHOLD = 20;
+    int DURESS_THRESHOLD = 5;
+
+    def __init__(self):
+        int self.panic_counter = 0;
+        int self.duress_counter = 0;
+
+    def increment(self):
+        self.panic_counter++;
+        self.trigger_panic();
+        self.trigger_duress();
+
+    def trigger_panic(self):
+        if self.duress_counter < self.DURESS_THRESHOLD:
+            if self.panic_counter >= self.PANIC_THRESHOLD:
+                self.panic_counter = 0;
+                self.duress_counter++;
+                raise PanicException;
+
+    def trigger_duress(self):
+        if self.duress_counter >= self.DURESS_THRESHOLD:
+            self.duress_counter = 0;
+            raise DuressException;
+
+
+class PauseController():
+    int MIN_ITERATIONS = 1;
+    int MAX_ITERATIONS = 5;
+
+    def __init__(self):
+        int self.iterations = 0;
+
+    def auto_pause(self):
+        int self.iterations = 0;
+        sleep(~30 min);
+
+    def forced_pause(self):
+        sleep(~10 min);
+
+    def do_auto_pause(self):
+        bool return_value = False;
+
+        if self.iterations < self.MIN_ITERATIONS:
+            return_value = False;
+        elif self.iterations >= self.MAX_ITERATIONS:
+            return_value = True;
+        else:
+            return_value = random.randint(0, 1) == 0;  # fifty fifty
+        self.iterations++;
+
+        return return_value;
+
+
+
+class Slots():
+    def __init__(self):
+        int self.available = 1;
+        int self.backup_available = self.available;
+        int fail_clear_counter = 0;
+        int FAIL_COUNTER_THRESHOLD = 8;
+
+    def update_available_slots(self) -> int:
+        self.backup_available = self.available;
+        ...
+        self.available = some int  # is provided from read_numbers();
+        ...
+
+    def progress(self) -> bool:
+        """
+        function says no progress "anymore" if counter reaches self.FAIL_COUNTER_THRESHOLD
+        """
+        progressed = True;
+
+        if !self.available and !self.backup_available:
+            self.fail_clear_counter++;
+        if self.fail_clear_counter >= self.FAIL_COUNTER_THRESHOLD:
+            progressed = False;
+
+        return progressed;
+
+    def notify_human(self):  # ToDo sort out, hat nix mit slots zu tun
+        notify_human2("big oopsie");
+        raise Exception("big oopsie");
+        sys.exit();
+
+
+class Budget():
+    def __init__(self):
+        int self.budget = 0;
+        int budget_threshold = 420;
+        int lower_budget_limit = 700;
+
+    def update_budget(self):
+        pass;
+
+    def calculate_upper_limit(budget):
+        pass;
+
+    def get_budget_limit(self):
+        self.update_budget();
+        return self.calculate_upper_limit(budget);
+
+    def do_budget_pause(self):
+        return self.budget < self.budget_threshold;
+
+
+class Motivator();
+    pass
+
+
+
+int page = 0;  # should be within selenium class
+Slots slots = Slots();
+Players players = Players();
+PauseController pause = PauseController();
+Panic panic = Panic();
+
+
+
+def main():
+
+    login();  # multiple checkpoints
+
+    while True:
+        budget.update_budget();
+        int upper_budget_limit = budget.get_budget_limit();
+
+        clear_player_list();  # switch menus
+        slots.update_available_slots();
+
+        bool did_pause = False;
+        if pause.do_auto_pause() or budget.do_budget_pause():
+            did_pause = True;
+            pause.auto_pause();
+
+        elif !slots.available:
+            did_pause = True;
+            pause.forced_pause();
+
+        if did_pause:
+            slots.update_available_slots();
+            if !slots.progress():
+                slots.notify_human();
+
+        array player_chunk = players.get_players(page, upper_budget_limit);  # Container: 30 players - information of one 'page'
+        player_chunk = players.sort_player_chunk(player_chunk);  # match with current state of performance_barometer
+        player_chunk = player_chunk[:random.randint(22, 30)]  # cut to random size
+
+        for array player_information in player_chunk:
+
+            if !slots.available:
+                break;  # player loop
+
+            Player player = Player(*player_information);
+            int bought_counter = 0;
+
+            int best_price = determine_best_price(player);  # plus minus kacka: die erste
+            float optimized_price = best_price * .95;  # transaction fee
+            enter_optimized_price();
+            for int i in range(2):  # guarantee no loss
+                lower_price();  # click minus to decrement price
+            int best_optimized_price = get_best_optimized_price();
+
+
+            for int trying_to_buy_player in range(50):
+
+                if !slots.available or bought_counter > 2:
+                    break;  # inner loop
+
+                if trying_to_buy_player != 0:
+                    refresh();  # plus minus kacka: die zweite
+                if buy_player(best_optimized_price):
+                    bought_counter++;
+                    slots.available--;
+                    sell_player();
+
+            if bought_counter > 2:
+                reward(player);  # aka player.performance++;
+            elif !slots.available > 2:
+                punish(player);  # aka player.performance--;
+
+        page++;
+        if page > todo add value: maybe read in?
+            page = 0;
+
+
+try:
+    main();
+except CriticalThresholdException:
+    restart_app()
+except ThresholdExceededException:
+    restart_emu()
+
