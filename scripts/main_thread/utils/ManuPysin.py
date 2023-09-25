@@ -6,13 +6,15 @@ from time import sleep
 
 from scripts.DI.DI import di
 from scripts.utils.Colors import Colors
-from scripts.main_thread.utils.decorators import name
+from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
 from scripts.utils.digits import recognize_digits
 
 rs = di.get('rs')
 
-class ManuPysin:
+
+class ManuPysin(FunctionNameDecorator):
     def __init__(self, emu, mp, port, panic):
+        FunctionNameDecorator.__init__(self, mp.print)
         self.emu = emu
         self.mp = mp
         self.port = port
@@ -129,7 +131,6 @@ class ManuPysin:
                     f"can still find '{pic}' even though i expected not to", color=Colors.RED
                 )
         return location
-
 
     def wait_for_multiple(
             self, i: int = 10, dur: Union[int, float] = 1,

@@ -1,12 +1,13 @@
 from scripts.game.Exceptions import DuressException
 from scripts.DI.DI import di
-from scripts.main_thread.utils.decorators import name
+from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
 
 pics = di.get('pics')
 
 
-class Preparations:
+class Preparations(FunctionNameDecorator):
     def __init__(self, secrets, mpysin, mp):
+        FunctionNameDecorator.__init__(self, mp.print)
         self.secrets = secrets
         self.mpysin = mpysin
         self.mp = mp

@@ -5,9 +5,7 @@ import clipboard
 from time import sleep
 from threading import Thread
 
-from scripts.emu import emu_info
 from scripts.android_automate import androidAutomate
-
 from scripts.utils.hwnd import get_hwnd_by_name
 
 
@@ -25,7 +23,7 @@ class Emu(Thread):
     def run(self):
         if self.new:
             command = rf'start python '
-            command += r'C:\Users\Lennart\AndroidStudioProjects\Fifa2\scripts\emu\EmuThread.py '
+            command += r'C:\Users\Sintax\AndroidStudioProjects\Fifa2\scripts\emu\EmuThread.py '
             command += rf'{self.name} {self.port}'
             print(f"starting Emulator for '{self.name}' on port: {self.port}")
             os.system(command)
