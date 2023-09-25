@@ -6,11 +6,8 @@ from time import sleep
 
 from scripts.DI.DI import di
 from scripts.utils.Colors import Colors
-from scripts.utils.decorators import name
+from scripts.main_thread.utils.decorators import name
 from scripts.utils.digits import recognize_digits
-
-from scripts.game.Exceptions import PanicException
-from scripts.game.Exceptions import DuressException
 
 rs = di.get('rs')
 
@@ -163,18 +160,27 @@ class ManuPysin:
         :return: location || True on find=False  || False if nothing worked
         """
         out = False
+        asserted = False
 
         for _ in range(i):
             for pic in pics:
+                if 'find' in pic:
+                    find = pic['find']
+                else:
+                    find = True
                 location = self.locate(**pic)
-                if location and pic['find']:
+                if (location and find) or (not location and not find):
                     out = location
-                    self.mp.print(f"found {pic['pic']}")
+                    asserted = True
+                    self.mp.print(f"multi-check-pointed {pic['pic']}", color=Colors.GREEN)
                     break
-                elif not location and not pic['find']:
-                    out = True
-                    self.mp.print(f"could not find {pic['pic']} any longer")
-                    break
+                # elif not location and not find:
+                #     out = True
+                #     asserted = True
+                #     self.mp.print(f"could not find {pic['pic']} any longer")
+                #     break
+            if asserted:
+                break
             sleep(dur)
 
         return out

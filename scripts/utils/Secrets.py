@@ -9,7 +9,7 @@ class Secrets:
     def parse_setup(self):
         setup = {}
 
-        with open(rf'secrets/secrets_{self.name}.env', 'r') as f:
+        with open(rf'secrets\secrets_{self.name}.env', 'r') as f:
             content = f.read()
 
         for line in content.splitlines():
