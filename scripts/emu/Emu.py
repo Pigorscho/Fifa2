@@ -23,7 +23,7 @@ class Emu(Thread):
     def run(self):
         if self.new:
             command = rf'start python '
-            command += r'C:\Users\Sintax\AndroidStudioProjects\Fifa2\scripts\emu\EmuThread.py '
+            command += r'.\scripts\emu\EmuThread.py '
             command += rf'{self.name} {self.port}'
             print(f"starting Emulator for '{self.name}' on port: {self.port}")
             os.system(command)
