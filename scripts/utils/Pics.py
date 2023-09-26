@@ -11,3 +11,8 @@ class Pics:
     homescreen = pic_params('homescreen')
     login_btn = pic_params('login_btn')
     sign_in_btn = pic_params('sign_in_btn')
+    software_update = pic_params('software_update')
+    software_update_ok = pic_params('software_update_ok')
+    software_update_update = pic_params('software_update_update')
+    software_update_cancel = pic_params('software_update_cancel')
+    software_update_confirm_btn = pic_params('software_update_confirm_btn')

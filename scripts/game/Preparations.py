@@ -1,6 +1,9 @@
+from time import sleep
+
 from scripts.game.Exceptions import DuressException
 from scripts.DI.DI import di
 from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
+from scripts.game.Playstore import Playstore
 
 pics = di.get('pics')
 
@@ -12,10 +15,13 @@ class Preparations(FunctionNameDecorator):
         self.mpysin = mpysin
         self.mp = mp
 
+        self.playstore = Playstore(self.mpysin, self.mp)
+
     @name
     def run(self):
         self.start_app()
         self.login()
+        self.playstore.run()
         self.navigate_to_main_menu()
         self.finalize()
 
@@ -33,6 +39,7 @@ class Preparations(FunctionNameDecorator):
 
         if self.mpysin.locate(**pics.homescreen):
             self.mpysin.start_app()
+            sleep(10)
 
     @name
     def login(self):
@@ -48,6 +55,8 @@ class Preparations(FunctionNameDecorator):
             if not pwd_field:
                 self.mp.print('raising DuressException because critical part of login failed')
                 raise DuressException
+            self.mpysin.typewrite(self.secrets.fifa_user, dur=2)
+            pwd_field = self.mpysin.locate(**pics.enter_pwd_field)
             self.mpysin.click(*pwd_field)
             self.mpysin.typewrite(self.secrets.fifa_password)
             self.mpysin.enter(dur=5)

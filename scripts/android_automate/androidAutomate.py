@@ -3,6 +3,7 @@ from subprocess import Popen, PIPE, check_output
 import os
 import re
 import math
+import platform
 
 
 def retSysCall(command):
@@ -222,15 +223,18 @@ class Device:
 		# Args:
 		# 	app (str): Launches the supplied app. Apps may be listed in the CLI with listApps()
 		# """
-		os.system(f"adb -s {self.deviceId} shell am force-stop {app}")
-		os.system(f"adb -s {self.deviceId} shell monkey -p {app} -v 1")
-	# wait for app to open
-	# line = [""]
-	# while app not in line[0]:
-	# 	process = Popen(['adb','-s', self.deviceId,'shell', ' dumpsys', 'window', 'windows', '|', 'grep', '-E', '"mFocusedApp"'], stdout=PIPE, stderr=PIPE)
-	# 	stdout, stderr = process.communicate()
-	# 	line = stdout.decode().splitlines()
-	# time.sleep(1) #wait for the intended view to show up
+		null_device = '/dev/null' if platform.system() != 'Windows' else 'NUL'
+
+		os.system(f"adb -s {self.deviceId} shell am force-stop {app} > {null_device} 2>&1")
+		os.system(f"adb -s {self.deviceId} shell monkey -p {app} -v 1 > {null_device} 2>&1")
+
+		# wait for app to open
+		# line = [""]
+		# while app not in line[0]:
+		# 	process = Popen(['adb','-s', self.deviceId,'shell', ' dumpsys', 'window', 'windows', '|', 'grep', '-E', '"mFocusedApp"'], stdout=PIPE, stderr=PIPE)
+		# 	stdout, stderr = process.communicate()
+		# 	line = stdout.decode().splitlines()
+		# time.sleep(1) #wait for the intended view to show up
 
 	def closeApp(self, app):
 		# """

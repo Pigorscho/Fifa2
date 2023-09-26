@@ -19,7 +19,7 @@ class Slots():
 
     def progress(self) -> bool:
         """
-        checks if has more slots than before pause
+        checks if has more slots than before pause_controller
         function says no progress "anymore" if counter reaches self.FAIL_COUNTER_THRESHOLD
         """
         progressed = True

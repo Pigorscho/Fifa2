@@ -45,9 +45,11 @@ class Emu(Thread):
         window.resizeTo(xz, yz)
         self.device = androidAutomate.Device(f'emulator-{self.port}', verbose=False)
 
-    def screen(self):
+    def screen(self, image_path=None):
+        if not image_path:
+            f'screen-{self.port}.png'
         os.system(
-            rf'adb -s emulator-{self.port} exec-out screencap -p > .\pics\screen-{self.port}.png'
+            rf'adb -s emulator-{self.port} exec-out screencap -p > .\pics\{image_path}'
         )
 
     def launch(self, app):
@@ -101,6 +103,10 @@ class Emu(Thread):
         self.device.inputText(text)
 
     def paste_text(self, text):
+        if text == '.':
+            self.device.keycodeEvent('56')
+        elif text == '@':
+            self.input_text('@')
         clipboard.copy(text)
         sleep(.1)
         self.device.keycodeEvent('279')  # KEYCODE_PASTE is 279
@@ -110,10 +116,10 @@ class Emu(Thread):
         for part in parts:
             if part['special']:
                 self.paste_text(part['value'])
-                print(f"pasted: {part['value']}")
+                # print(f"pasted: {part['value']}")
             else:
                 self.input_text(part['value'])
-                print(f"typed: {part['value']}")
+                # print(f"typed: {part['value']}")
 
     def copy_text(self):
         os.system("adb shell input keyevent 278")

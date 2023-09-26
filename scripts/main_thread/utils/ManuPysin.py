@@ -20,8 +20,8 @@ class ManuPysin(FunctionNameDecorator):
         self.port = port
         self.panic = panic
 
-    def screen(self):
-        self.emu.screen()
+    def screen(self, image_path=None):
+        self.emu.screen(image_path)
         sleep(.01)
 
     def click(self, x, y, dur=1):
