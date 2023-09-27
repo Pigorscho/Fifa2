@@ -1,0 +1,378 @@
+  # # Container Clear Player List Function
+    #
+    # @name
+    # def clear_player_list(self):
+    #     self.move_to_transfer_list_menu()
+    #     self.read_transfer_list_numbers()
+    #     if self.current_sold and self.current_items < 1:
+    #         raise Exception("No need to move_inside_transfer_list")
+    #     self.move_inside_transfer_list()
+    #     self.click_transfer_list_btns()
+    #     self.back()
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    #
+    # @name
+    # def move_to_transfer_list_menu(self):
+    #     if not self.check_point(**pics.main_menu_checkpoint, i=10):
+    #         return
+    #     transfer_menu_btn = self.locate(**pics.transfers_menu_btn)
+    #     self.click(*transfer_menu_btn)
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    #
+    # @name
+    # def read_transfer_list_numbers(self):
+    #     if not self.check_point(**pics.transfers_menu_checkpoint, i=10):
+    #         return
+    #     return self.read_transfer_list()  # TODO implement Discord communication service
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    #
+    # @name
+    # def read_transfer_list(self):
+    #     self.current_items = self.read_numbers(**regs.transfer_list_items)
+    #     self.current_selling = self.read_numbers(**regs.transfer_list_selling)
+    #     self.current_sold = self.read_numbers(**regs.transfer_list_sold)
+    #     print(
+    #         f'self.current_items = {self.current_items}, self.current_selling = {self.current_selling}, self.current_sold = {self.current_sold}')
+    #     return self.current_items, self.current_selling, self.current_sold
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    #
+    # @name
+    # def move_inside_transfer_list(self):
+    #     transfer_list_btn = self.locate(**pics.transfer_list)
+    #     self.click(
+    #         *transfer_list_btn)
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    #
+    # @name
+    # def click_transfer_list_btns(self):
+    #     for pic in [pics.clear_sold_players_btn, pics.re_list_all_players_btn]:
+    #         location = self.locate(**pic)
+    #         if location:
+    #             self.click(*location)
+    #             confirm = self.wait_for(3, 1, **pics.confirm)
+    #             if confirm:
+    #                 self.click(*confirm)
+
+    # ______________________________________________________________________________
+    # Status Function - checks the Amount{current_Items, selling_Items, sold_Items} after cleaning up
+    # @name
+    # def status(self):
+    #     print(
+    #         f'self.current_items = {self.current_items}, self.current_selling = {self.current_selling}, self.current_sold = {self.current_sold}')
+
+    # ______________________________________________________________________________
+    # # Container Buying & Quick_Sell Player Function
+    #
+    # @name
+    # def buy_and_sell_player(self, player, n):  # TODO implement
+    #     self.move_inside_transfer_market()
+    #     self.enter_player_data(player)
+    #     for try_to_buy_player in range(30):
+    #
+    #         # ToDo implement return ; 30 tries - next player if 6 in row successful(counter)
+    #         player_bought = self.selecting_player(player, n)
+    #         if player_bought:
+    #             self.list_player_on_transfermarket(player)
+    #
+    # # ______________________________________________________________________________
+    # # Container Selecting And Buying Player Function
+    #
+    # @name
+    # def selecting_player(self, player, n):  # TODO implement return
+    #
+    #     """ remember:   read account balance to predict possible player purchases
+    #                     possible_purchases = account_balance/average_player_price
+    #                     for i in range{possible_purchases};"""
+    #
+    #     self.search()
+    #     if self.locate(**pics.no_results_found, find=False):
+    #         print('would do too_few_results() now')
+    #         self.too_few_results(player)  # TODO implement
+    #     elif self.locate(**pics.way_too_many_results, find=False):
+    #         print('would do too_many_results() now')
+    #         self.too_many_results(player)  # price too low  # TODO Test
+    #     else:
+    #         arrow_list = list(self.locate_all(**pics.search_player_result))
+    #         arrow_count = len(arrow_list)
+    #         print(f'arrc: {arrow_count}')
+    #         if arrow_count > 3:
+    #             print('would do too_many_results2() now')
+    #             self.too_many_results(player)  # TODO Test
+    #         else:
+    #             print('would do buying(player) now')
+    #             players.set(n, 'eval_buy_price', self.current_eval_buy_price)
+    #
+    #
+    #
+    #             self.buy_player(player, arrow_list)  # TODO Test
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    #
+    # @name
+    # def move_inside_transfer_market(self):
+    #     if not self.check_point(**pics.transfers_menu_checkpoint):
+    #         return
+    #     transfer_market_btn = self.wait_for(10, 1, **pics.transfer_market)
+    #     self.click(*transfer_market_btn)
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    # # Container Entering Player Data
+    #
+    # @name
+    # def enter_player_data(self, player):  # TODO implement first buy price paste
+    #     if not self.check_point(**pics.transfer_market_checkpoint):
+    #         return
+    #     self.reset_filters()
+    #     self.enter_name(player)
+    #     self.select_searched_player(player)
+    #     self.select_quality(player)
+    #     self.select_rarity(player)
+    #     self.scroll_down_inside_transfer_menu()
+    #     self.enter_price(player)
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    # @name
+    # def reset_filters(self):
+    #     reset_name_btn = self.locate(**pics.reset_player_name)
+    #     if reset_name_btn:
+    #         self.click(*reset_name_btn)
+    #     reset_filter_btn = self.locate(**pics.reset_filter_btn)
+    #     if reset_filter_btn:
+    #         self.click(*reset_filter_btn)
+    #         print(reset_filter_btn)
+    #     self.scroll_down_inside_transfer_menu()
+    #     reset_bid_price_btn = self.wait_for(4, 1, **pics.reset_bid_price_btn)
+    #     if reset_bid_price_btn:
+    #         self.click(*reset_bid_price_btn)
+    #     reset_buy_price_btn = self.wait_for(4, 1, **pics.reset_buy_price_btn)
+    #     if reset_buy_price_btn:
+    #         self.click(*reset_buy_price_btn)
+    #     self.scroll_up_inside_transfer_menu()
+    #
+    # @name
+    # def enter_name(self, player):
+    #     type_player_name = self.locate(**pics.type_player_name)
+    #     if not type_player_name:
+    #         raise Exception
+    #     self.click(*type_player_name, 2)
+    #     self.typewrite(player.name)
+    #     self.back()
+    #
+    # @name
+    # def select_searched_player(self, player):
+    #     # check if player name exists
+    #     # if player name does not exist append to blacklist
+    #     # self.click(*reset_player_name)
+    #     # return
+    #     # else click Point[ 527,698 ] --> selecting the typed player
+    #
+    #     player_name_not_found = self.locate(**pics.player_name_not_found, find=False)
+    #     if player_name_not_found:
+    #         # player.name # ToDo Blacklist Player
+    #         pass
+    #     else:
+    #         sleep(.3)
+    #         print('looking for player results')
+    #         self.screen()
+    #         self.crop_img(
+    #             regs.entered_player_name_reg['reg'], r'./pics/all_entered_player_name.png'
+    #         )
+    #         found_results = self.wait_for(10, 1, **pics.player_name_search_results)
+    #         if found_results:
+    #             player_name_results = self.locate_all(
+    #                 **pics.all_entered_player_name, gray=True, center=False
+    #             )
+    #             for player_name_result in player_name_results:
+    #                 x, y, xz, yz = player_name_result
+    #                 x += 670
+    #                 a, b, az, bz = 700, y, 100, 100
+    #                 # print(a, b, az, bz)
+    #                 corresponding_rating = self.read_numbers(reg_params((a, b, az, bz))['reg'])
+    #                 print(f'y: {y}, rating: {corresponding_rating}')
+    #                 # print("1", bool('special' not in player.rating))
+    #                 # print("2", bool(corresponding_rating == player.rating))
+    #                 if 'special' not in player.quality and corresponding_rating == player.rating:
+    #                     print("clicking selected player")
+    #                     self.click(*pyautogui.center((a, b, az, bz)))
+    #
+    #         #
+    #         # import os
+    #         # os.startfile(r'C:\Users\Lennart\AndroidStudioProjects\FifaTradingDroid\pics\all_entered_player_name.png')
+    #         # os._exit(0)
+    #
+    # @name
+    # def select_quality(self, player):
+    #     quality_menu_btn = self.locate(**pics.quality_menu_btn)
+    #     self.click(*quality_menu_btn)
+    #     searched_player_quality = self.locate(**pics.player_quality_map[player.quality])
+    #     if searched_player_quality:
+    #         self.click(*searched_player_quality, 2)
+    #
+    # @name
+    # def select_rarity(self, player):  # TODO implement scroll to get all rarities
+    #     rarity_menu_btn = self.locate(**pics.rarity_menu_btn)
+    #     self.click(*rarity_menu_btn)
+    #     searched_player_rarity = self.locate(**pics.player_rarity_map[player.rarity])
+    #     if searched_player_rarity:
+    #         self.click(*searched_player_rarity, 2)
+    #
+    # @name
+    # def enter_price(self, player):
+    #     transfer_menu_scroll_to_price_checkpoint = self.check_point(
+    #         **pics.transfer_menu_scroll_to_price_checkpoint
+    #     )
+    #     if transfer_menu_scroll_to_price_checkpoint:
+    #         # min_buy_price_btn = self.locate(**pics.min_buy_price_btn)
+    #         # self.click(*min_buy_price_btn, 2)
+    #         # enter_price_checkpoint = self.check_point(**pics.enter_price_checkpoint)
+    #         # if enter_price_checkpoint:
+    #         #     print(f'player price: {player.player_buy_price}')
+    #         #     self.typewrite(player.player_buy_price, 1)
+    #         #     self.back(1)
+    #         self.max_buy_now_price = self.locate(**pics.max_buy_price_btn)
+    #         self.click(*self.max_buy_now_price, 2)
+    #         enter_price_checkpoint_2 = self.check_point(**pics.enter_price_checkpoint)
+    #         if enter_price_checkpoint_2:
+    #             self.typewrite(player.player_buy_price)
+    #             self.back()
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    # # Container Search Filtered Player Function
+    #
+    # @name
+    # def search(self):
+    #     search_player_btn = self.wait_for(10, 1, **pics.search_player_btn)
+    #     self.click(*search_player_btn, 1)
+    #
+    # def unhappy_results(self, player, pic):
+    #     if not self.check_point(**pics.search_result_checkpoint):
+    #         return
+    #     self.back()
+    #     self.scroll_down_inside_transfer_menu()
+    #     btn = self.wait_for(5, 1, **pic)
+    #     self.click(*btn, 1)
+    #     self.copy_price(player)
+    #
+    # @name
+    # def too_few_results(self, player):  # ToDo implement new_sell_price save
+    #     # change Search Price (in this Case the old_searched_price is too low and needs to be
+    #     # increased, new_price needs to be stored)
+    #     self.unhappy_results(player, pics.buy_price_max_price_increment)
+    #
+    # @name
+    # def too_many_results(self, player):  # ToDo implement new_sell_price save
+    #     # change Search Price (in this Case the old_searched_Price is too high and needs to be
+    #     # decreased, new_price needs to be stored)
+    #     self.unhappy_results(player, pics.buy_price_min_decrement)
+    #
+    # @name
+    # def copy_price(self, player):
+    #     self.click(*self.max_buy_now_price, 1)
+    #     self.current_eval_buy_price = self.emu.copy_text()
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    # # Container Buying Player Function
+    # @name
+    # def buy_player(self, player, arrow_list):  # TODO Test
+    #     '''
+    #
+    #     :param player:
+    #     :return:
+    #     '''
+    #     self.click_player(player, arrow_list)
+    #     self.click_buy_now_btn()
+    #     checked_purchase = self.approve_purchase()
+    #     if checked_purchase:
+    #         # ToDo readNumbers Function that reads the price the item got actually bought for
+    #         self.list_player_on_transfermarket(player)
+    #     self.back()
+    #     rs.sleep(1)
+    #     self.back()
+    #
+    # @name
+    # def click_player(self, player, arrow_list):  # TODO Test
+    #     # if result == True:
+    #     # self.click(514, 440)
+    #     self.click(*arrow_list[0], 1)
+    #
+    # @name
+    # def click_buy_now_btn(self):  # TODO Test
+    #     buy_now_btn = self.wait_for(3, 1, **pics.buy_now_player_btn)
+    #     self.click(*buy_now_btn, 1)
+    #     confirm_purchase_btn = self.locate(**pics.buy_now_player_confirmation_btn)
+    #     if not confirm_purchase_btn:
+    #         return False
+    #     self.click(*confirm_purchase_btn, 1)
+    #     return True
+    #
+    # @name
+    # def approve_purchase(self):  # TODO Test
+    #     if not self.wait_for(3, 1, **pics.congrats):
+    #         return False
+    #     else:
+    #         return True
+    #
+    # # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
+    # # Container Listing Successful Purchase On The Transfer Market
+    # @name
+    # def list_player_on_transfermarket(self, player):  # TODO Test
+    #     self.list_on_transfer_market()
+    #     self.scroll_down_inside_selling_menu()
+    #     self.enter_sell_price_in_sell_menu(player)
+    #     self.send_to_auction_house()
+    #
+    # @name
+    # def list_on_transfer_market(self):  # TODO Test
+    #     list_on_transfer_market_btn = self.locate(**pics.list_on_transfer_market_btn)
+    #     self.click(*list_on_transfer_market_btn, 1)
+    #
+    # @name
+    # def scroll_down_inside_selling_menu(self):  # TODO Test
+    #     self.drag(535, 1452, 535, 145, 500)
+    #     rs.sleep(.5)
+    #
+    # @name
+    # def scroll_down_inside_transfer_menu(self):  # TODO Test
+    #     self.drag(535, 1452, 535, 145, 500)
+    #     rs.sleep(.5)
+    #
+    # @name
+    # def scroll_up_inside_transfer_menu(self):  # TODO Test
+    #     self.drag(535, 400, 535, 1490, 500)
+    #     rs.sleep(.5)
+    #
+    # @name
+    # def send_to_auction_house(self):  # TODO Test
+    #     send_to_auction_house_btn = self.locate(**pics.send_to_auction_house_btn)
+    #     self.click(*send_to_auction_house_btn, 1)
+    #     self.back()
+    #     rs.sleep(1)
+    #     self.back()
+    #
+    # @name
+    # def enter_sell_price_in_sell_menu(self, player):  # TODO implement
+    #     list_for_transfer_checkpoint = self.check_point(
+    #         **pics.list_on_transfer_market_checkpoint
+    #     )
+    #     if list_for_transfer_checkpoint:
+    #         min_sell_price_btn = self.locate(**pics.min_sell_price_btn)
+    #         self.click(*min_sell_price_btn, 1)
+    #         enter_price_checkpoint = self.check_point(**pics.enter_price_checkpoint)
+    #         if enter_price_checkpoint:
+    #             self.typewrite(player.sell_price)
+    #             rs.sleep(1)
+    #             self.back()
+    #             rs.sleep(1)
+    #             max_sell_price_btn = self.locate(**pics.max_sell_price_btn)
+    #             self.click(*max_sell_price_btn, 1)
+    #             enter_price_checkpoint_2 = self.check_point(**pics.enter_price_checkpoint)
+    #             if enter_price_checkpoint_2:
+    #                 self.typewrite(player.sell_price)
+    #                 rs.sleep(1)
+    #                 self.back()
+    #                 rs.sleep(1)
