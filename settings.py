@@ -4,7 +4,7 @@ from scripts.utils.Colors import Colors
 settings = {
     "Pigo": {
         "port": 5554,
-        "coords": (1920 - 498, 0, 498, 1080),
+        "coords": (2560 - 498, 0, 498, 1080),
         "color": Colors.CYAN,
         "bg_color": Colors.BG_BLACK
     },

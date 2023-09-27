@@ -28,13 +28,14 @@ class Preparations(FunctionNameDecorator):
     @name
     def start_app(self):
         if not self.mpysin.check_point_multiple(
-            i=100, dur=1, pics=[
+            i=10, dur=1, pics=[
                     {**pics.homescreen},
+                    {**pics.homescreen2},
                     {**pics.home_active_btn},
                     {**pics.transfers_active_btn}
                 ]
         ):
-            self.mp.print('raising DuressException because critical check_point_multiple failed')
+            self.mp.print('raising DuressException because critical preparations.check_point_multiple failed')
             raise DuressException
 
         if self.mpysin.locate(**pics.homescreen):
@@ -53,10 +54,12 @@ class Preparations(FunctionNameDecorator):
             self.mpysin.click(*login_btn, dur=2)
             pwd_field = self.mpysin.wait_for(i=10, dur=1, **pics.enter_pwd_field)
             if not pwd_field:
-                self.mp.print('raising DuressException because critical part of login failed')
+                self.mp.print('raising DuressException because preparations.login() failed')
                 raise DuressException
             self.mpysin.typewrite(self.secrets.fifa_user, dur=2)
-            pwd_field = self.mpysin.locate(**pics.enter_pwd_field)
+            pwd_field2 = self.mpysin.locate(**pics.enter_pwd_field)
+            if pwd_field2:
+                pwd_field = pwd_field2  # ToDo check if happy with this
             self.mpysin.click(*pwd_field)
             self.mpysin.typewrite(self.secrets.fifa_password)
             self.mpysin.enter(dur=5)
@@ -71,6 +74,7 @@ class Preparations(FunctionNameDecorator):
 
     @name
     def finalize(self):
-        # ToDo add checkpoint dass wir auch wirklich im home menu sind
-        pass
+        if not self.mpysin.check_point(**pics.home_menu_checkpoint):
+            self.mp.print('raising DuressException because preparations.finalize() failed')
+            raise DuressException
 

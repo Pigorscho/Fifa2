@@ -10,6 +10,7 @@ from scripts.game.Exceptions import ExceptionHandler
 from scripts.game.Slots import Slots
 from scripts.game.Budget import Budget
 from scripts.game.Pause import Pause
+from scripts.game.ChronologyController import Chronology
 # from scripts... import Futbin
 # from scripts... import Players
 # from scripts... import Player
@@ -36,9 +37,9 @@ class MainThread(Thread, ExceptionHandler):
         self.slots = Slots(self.mpysin, self.mprint)
         self.budget = Budget(self.mprint)
         self.pause = Pause(self.mprint, self.slots, self.budget)
+        self.chronology = Chronology()# self.motivator = Motivator(self.mprint)
         # self.futbin = Futbin(self.mprint)
         # self.players = Players(self.mprint)
-        # self.motivator = Motivator(self.mprint)
 
         self.threw_panic = False
         self.threw_duress = False
