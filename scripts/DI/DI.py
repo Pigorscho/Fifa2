@@ -10,7 +10,7 @@ class DI:
         self.dependency_map = {
             'rs': RSleep,
             'pics': Pics,
-            'pilregs': PILRegs,
+            'pil_regs': PILRegs,
         }
 
     def get(self, dependency_name):
@@ -32,6 +32,7 @@ di = DI()
 
 if __name__ == '__main__':
     di = DI(verbose=True)
+    rs = di.get('rs')
     for i in range(1, 6):
-        dur = di.get('rs').sleep(i, test=True)
+        dur = rs.sleep(i, test=True)
         print(dur)

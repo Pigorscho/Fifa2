@@ -1,14 +1,16 @@
 from time import sleep
 
 from scripts.game.Exceptions import DuressException
+from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
 
 from scripts.DI.DI import di
 
 pics = di.get('pics')
 
 
-class Playstore:
+class Playstore(FunctionNameDecorator):
     def __init__(self, mpysin, mp):
+        FunctionNameDecorator.__init__(self, mp.print)
         self.mpysin = mpysin
         self.mp = mp
 
@@ -16,9 +18,11 @@ class Playstore:
         if self.check_for_update():
             self.get_update()
 
+    @name
     def check_for_update(self):
         return bool(self.mpysin.locate(**pics.software_update))
 
+    @name
     def get_update(self):
         ok = self.mpysin.locate(**pics.software_update_ok)
         if not ok:

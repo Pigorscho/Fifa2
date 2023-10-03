@@ -46,10 +46,12 @@ class Emu(Thread):
         self.device = androidAutomate.Device(f'emulator-{self.port}', verbose=False)
 
     def screen(self, image_path=None):
+        # clean_single(self.port)
         if not image_path:
-            f'screen-{self.port}.png'
+            image_path = f'screen-{self.port}.png'
+        image_path = f'.\pics\\' + image_path
         os.system(
-            rf'adb -s emulator-{self.port} exec-out screencap -p > .\pics\{image_path}'
+            rf'adb -s emulator-{self.port} exec-out screencap -p > {image_path}'
         )
 
     def launch(self, app):

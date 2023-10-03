@@ -1,4 +1,7 @@
+from scripts.DI.DI import di
 
+pics = di.get('pics')
+pil_regs = di.get('pil_regs')
 
 
 class Slots():
@@ -12,10 +15,14 @@ class Slots():
 
     def update_available_slots(self):
         self.backup_available = self.available
-        # Todo implement read numbers etc.
-        # ...
-        # self.available = some int  # is provided from read_numbers();
-        # ...
+        current_items = self.mpysin.read_numbers(**pil_regs.current_items)
+        current_selling = self.mpysin.read_numbers(**pil_regs.current_selling)
+        current_sold = self.mpysin.read_numbers(**pil_regs.current_sold)
+        self.available = 100 - current_items
+        out = f'Free Transfer Slots: {self.available}, '
+        out += f'Selling: {current_selling}, '
+        out += f'Sold: {current_sold}'
+        self.mp.print(out)
 
     def progress(self) -> bool:
         """
@@ -31,4 +38,3 @@ class Slots():
             progressed = False
 
         return progressed
-

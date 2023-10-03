@@ -1,7 +1,12 @@
+from scripts.DI.DI import di
+
+pics = di.get('pics')
+pil_regs = di.get('pil_regs')
 
 
 class Budget():
-    def __init__(self, mp):
+    def __init__(self, mpysin, mp):
+        self.mpysin = mpysin
         self.mp = mp
         self.budget = 0
         self.budget_threshold = 420
@@ -15,8 +20,7 @@ class Budget():
         return self.budget < self.budget_threshold
 
     def update_budget(self):
-        pass  # ToDo
-        # self.budget = ...
+        self.budget = self.mpysin.read_numbers(**pil_regs.budget)
         self.mp.print(f'updated budget to: {self.budget}')
 
     def calculate_upper_limit(self):

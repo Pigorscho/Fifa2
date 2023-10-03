@@ -191,7 +191,7 @@ class ManuPysin(FunctionNameDecorator):
 
     def read_numbers(self, reg):
         self.screen()
-        digit_path = rf'.\pics\digits.png'
+        digit_path = '.\pics\digits.png'
         self.crop_img(reg, digit_path)
         return recognize_digits(digit_path)
 

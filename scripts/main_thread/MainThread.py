@@ -30,14 +30,15 @@ class MainThread(Thread, ExceptionHandler):
         self.color = settings['color']
         self.bg_color = settings['bg_color']
         self.port = settings['port']
-        ExceptionHandler.__init__(self, self.mprint)
-        self.secrets = Secrets(self.account_name)
-        self.mpysin = ManuPysin(self.emu, self.mprint, self.port, self.panic)
-        self.preparations = Preparations(self.secrets, self.mpysin, self.mprint)
-        self.slots = Slots(self.mpysin, self.mprint)
-        self.budget = Budget(self.mprint)
-        self.pause = Pause(self.mprint, self.slots, self.budget)
-        self.chronology = Chronology()# self.motivator = Motivator(self.mprint)
+        ExceptionHandler.__init__(self, mp=self.mprint)
+        self.secrets = Secrets(name=self.account_name)
+        self.mpysin = ManuPysin(emu=self.emu, mp=self.mprint, port=self.port, panic=self.panic)
+        self.preparations = Preparations(secrets=self.secrets, mpysin=self.mpysin, mp=self.mprint)
+        self.slots = Slots(mpysin=self.mpysin, mp=self.mprint)
+        self.budget = Budget(mpysin=self.mpysin, mp=self.mprint)
+        self.pause = Pause(mp=self.mprint, slots=self.slots, budget=self.budget)
+        self.chronology = Chronology(mpysin=self.mpysin, mp=self.mprint, slots=self.slots)
+        # self.motivator = Motivator(self.mprint)
         # self.futbin = Futbin(self.mprint)
         # self.players = Players(self.mprint)
 
@@ -55,11 +56,9 @@ class MainThread(Thread, ExceptionHandler):
         sleep(.1)
 
     def main(self):
-        self.budget.update_budget()
         upper_budget_limit = self.budget.get_budget_limit()
 
-        self.clear_playerlist()
-        self.slots.update_available_slots()
+        self.chronology.clear_player_list()
 
         did_pause = self.pause.run()
         if did_pause:

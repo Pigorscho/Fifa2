@@ -15,7 +15,10 @@ def recognize_digits(image_path):
     text = ''.join([letter for letter in text if letter.isdigit()])
 
     # convert to integer | note: no isdigit() necessary because of tessedit_char_whitelist
-    digit = int(text)
+    if text:
+        digit = int(text)
+    else:
+        digit = 0
 
     return digit
 

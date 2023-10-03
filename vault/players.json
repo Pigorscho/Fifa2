@@ -1,1 +1,54 @@
-{}
+{
+    "Djibril Sow": {
+        "Gold": [
+            {
+                "name": "Djibril Sow",
+                "quality": "Gold",
+                "rarity": "Rare",
+                "min_buy_price": 1000,
+                "eval_buy_price": 1100,
+                "player_buy_price": 750,
+                "sell_price": 1200,
+                "performance_barometer": 5,
+                "bought_price": null
+            },
+            {
+                "name": "Djibril Sow",
+                "quality": "Gold",
+                "rarity": "Rare",
+                "min_buy_price": 1000,
+                "eval_buy_price": 1100,
+                "player_buy_price": 750,
+                "sell_price": 1200,
+                "performance_barometer": 5,
+                "bought_price": null
+            }
+        ]
+    },
+    "Thorgan Hazard": {
+        "Silver": [
+            {
+                "name": "Thorgan Hazard",
+                "quality": "Silver",
+                "rarity": "Rare",
+                "min_buy_price": 1000,
+                "eval_buy_price": 1100,
+                "player_buy_price": 1050,
+                "sell_price": 1200,
+                "performance_barometer": 5,
+                "bought_price": null
+            },
+            {
+                "name": "Thorgan Hazard",
+                "quality": "Silver",
+                "rarity": "Rare",
+                "min_buy_price": 1000,
+                "eval_buy_price": 1100,
+                "player_buy_price": 1050,
+                "sell_price": 1200,
+                "performance_barometer": 5,
+                "bought_price": null
+            }
+        ]
+    }
+}

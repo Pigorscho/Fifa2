@@ -70,7 +70,7 @@ class Preparations(FunctionNameDecorator):
             return
         home_inactive_btn = self.mpysin.locate(**pics.home_inactive_btn)
         if home_inactive_btn:
-            self.mpysin.click(home_inactive_btn, dur=2)
+            self.mpysin.click(*home_inactive_btn, dur=2)
 
     @name
     def finalize(self):
