@@ -10,7 +10,8 @@
                 "player_buy_price": 750,
                 "sell_price": 1200,
                 "performance_barometer": 5,
-                "bought_price": null
+                "bought_price": null,
+                "profit": null
             },
             {
                 "name": "Djibril Sow",
@@ -21,7 +22,8 @@
                 "player_buy_price": 750,
                 "sell_price": 1200,
                 "performance_barometer": 5,
-                "bought_price": null
+                "bought_price": null,
+                "profit": null
             }
         ]
     },
@@ -36,7 +38,8 @@
                 "player_buy_price": 1050,
                 "sell_price": 1200,
                 "performance_barometer": 5,
-                "bought_price": null
+                "bought_price": null,
+                "profit": null
             },
             {
                 "name": "Thorgan Hazard",
@@ -47,7 +50,8 @@
                 "player_buy_price": 1050,
                 "sell_price": 1200,
                 "performance_barometer": 5,
-                "bought_price": null
+                "bought_price": null,
+                "profit": null
             }
         ]
     }
