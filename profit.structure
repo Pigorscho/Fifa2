@@ -1,0 +1,27 @@
+suchen einen Spieler:
+a1) ist profitabel
+     wie hoch verfügbarkeit?
+        ist Profit ausreichend?
+            wenn ja
+                go for it
+            else:
+                next player
+
+b1) nicht profitabel
+    wie hoch verfügbarkeit?
+        ist Profit ausreichend?
+                wenn ja
+                    go for it
+                else:
+                    next player
+
+
+
+
+
+    kaufen einen spieler:
+
+        result A) viel verfügbar
+        result A2 Profit
+        result B) wenig verfügbar
+        result B2 Profit

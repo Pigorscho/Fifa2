@@ -1,6 +1,11 @@
 import os
+import clipboard
 
 from settings import settings
+
+
+def clear_clipboard():
+    clipboard.copy('')
 
 
 def delete_file(file_path):

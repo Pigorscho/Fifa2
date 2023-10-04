@@ -41,6 +41,9 @@ class Device:
 			print(f"Screen Width: {self.screenWidth}")
 			print(f"Screen Height: {self.screenHeight}\n")
 
+	def clear_clipboard(self):
+		command = f"adb -s {self.deviceId} shell echo '' | clip set"
+		os.system(command)
 
 	# INPUT METHODS ###################################################################################################
 	def inputTap(self, x, y, percent=False):

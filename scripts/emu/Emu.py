@@ -44,6 +44,7 @@ class Emu(Thread):
         window.moveTo(x, y)
         window.resizeTo(xz, yz)
         self.device = androidAutomate.Device(f'emulator-{self.port}', verbose=False)
+        self.device.clear_clipboard()
 
     def screen(self, image_path=None):
         # clean_single(self.port)
