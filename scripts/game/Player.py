@@ -48,3 +48,27 @@ class Player:
             'bought_price': self.bought_price,
         }
 
+
+"""
+price ranges :
+
+500 - 1000         -  Risiko 1
+1000 - 5000        -  Risiko 2
+5000 - 10000       -  Risiko 3
+10.000 - 25.000      -  Risiko 4   
+25.000 - 50.000      -  Risiko 5
+50.000 - 100.000     -  Risiko 6
+
+link: https://www.futbin.com/players?page=1&pc_price={lower_futbin_price}-{upper_futbin_price}&pos_type=all&sort=pc_price&order=asc&version=gold
+
+
+
+Rank:
+
+Rank 1 - Budget:       0 -   100.000
+Rank 2 - Budget: 100.000 -   200.000
+Rank 3 - Budget: 200.000 -   350.000
+Rank 4 - Budget: 350.000 -   500.000
+Rank 5 - Budget: 500.000 - 1.000.000
+... 
+"""

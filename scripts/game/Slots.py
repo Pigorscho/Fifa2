@@ -6,6 +6,7 @@ pil_regs = di.get('pil_regs')
 
 class Slots():
     FAIL_COUNTER_THRESHOLD = 8
+
     def __init__(self, mpysin, mp):
         self.mpysin = mpysin
         self.mp = mp
