@@ -1,1 +1,10 @@
 check _Rank and connect with budget
+
+Mainthread.py --> l.81
+
+ist das perf.-barometer wirklich sinnvoll?, eigenes testen für funktionalität hat ergeben das es
+eher dazu führt das am ende 99,99999% aller Spieler auf perf-level=0 droppen werden
+
+
+wenn der rest absolut flüssig läuft soll dann jeder Spieler erstmal Amount(x) ; x = [5 x 10]
+gesucht werden

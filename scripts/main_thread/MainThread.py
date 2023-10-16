@@ -78,7 +78,7 @@ class MainThread(Thread, ExceptionHandler):
 
             player = Player(*player_information)
             bought_counter = 0
-
+#ToDo Wo wird der Name und die Kaka eingegeben großes ToDo!!!
             best_price = self.determine_best_price(player)  # plus minus kacka: die erste
             optimized_price = best_price * .95  # transaction fee
             self.enter_optimized_price(optimized_price)
