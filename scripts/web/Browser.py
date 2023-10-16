@@ -56,8 +56,8 @@ class Browser:
         check = lambda ele: all(ele and contains in ele.get_attribute(attr) for contains, attr in appearances)
         return [element for element in self.driver.find_elements(by, val) if check(element)]
 
-    def get_players(self, page):
-        url = f"https://www.futbin.com/players?page={page}&pos_type=all&version=gold"
+    def get_players(self, page, lower_futbin_price, upper_futbin_price):  # ToDo hand budget instead of limits
+        url = f"https://www.futbin.com/players?page={page}&pc_price={lower_futbin_price}-{upper_futbin_price}&pos_type=all&sort=pc_price&order=asc&version=gold"
         self.driver.get(url)
         cn = 'player_name_players_table'
         player_names = [name.text for name in self.driver.find_elements(By.CLASS_NAME, cn)]
@@ -78,15 +78,16 @@ class Browser:
 
 
 if __name__ == '__main__':
-    # url_to_scrape = "https://www.futbin.com/23/player/26261/karim-benzema"
-    url_to_scrape = "https://www.futbin.com/23/player/26261/Ramona-Bachmann"
-    # Ramona Bachmann
+    page = 1
+    lower_futbin_price = 500
+    upper_futbin_price = 1000
     browser = Browser()
-    print(browser.get_player(url_to_scrape))
-    # for i, (name, rating, url) in enumerate(browser.get_players(1)):
-    #     browser = Browser()
-    #     ps, pc = browser.get_player(url)
-    #     print(f'{name}: rating={rating}, ps={ps}, pc={pc}, url={url}')
-    #     if i > 0:
-    #         break
-    browser.driver.quit()
+    for i, (name, rating, url) in enumerate(browser.get_players(page, lower_futbin_price, upper_futbin_price)):
+        browser = Browser()
+        ps, pc = browser.get_player(url)
+        print(f'{name}: rating={rating}, ps={ps}, pc={pc}, url={url}')
+        if i > 0:
+            break
+    # url_to_scrape = "https://www.futbin.com/23/player/26261/karim-benzema"
+    # url_to_scrape = "https://www.futbin.com/23/player/26261/Ramona-Bachmann"
+    # print(browser.get_player(url_to_scrape))

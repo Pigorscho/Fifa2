@@ -25,17 +25,11 @@ class Budget(FunctionNameDecorator):
         return self.budget < self.budget_threshold
 
     @name
-    def update_budget(self):
+    def update_budget(self, new_budget):
         self.budget = self.mpysin.read_numbers(**pil_regs.budget)
         self.mp.print(f'updated budget to: {self.budget}')
+        self.budget = new_budget
 
-    @name
-    def calculate_upper_limit(self):
-        limit = None
-        pass  # ToDo
-        # self.budget ...
-        self.mp.print(f'calculated limit: {limit}')
-        return limit
 
 
 """
