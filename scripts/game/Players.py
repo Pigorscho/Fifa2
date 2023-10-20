@@ -1,7 +1,8 @@
 import json
+from random import randint
 
 from scripts.game.Player import Player
-from scripts.web.Browser import Browser
+from scripts.game.Futbin import Futbin
 
 
 dummy_player_data = [
@@ -51,23 +52,27 @@ dummy_player_data = [
 class Players:
     def __init__(self):
         self.players = []
-        self.get_players()
 
-    def get_players(self):
-        for player_data in dummy_player_data:  # TODO add real data list here
-            self.players.append(Player(
-                player_data["name"],
-                player_data["rating"],
-                player_data["rarity"],
-                player_data["quality"],
-                player_data["min_buy_price"],
-                player_data["eval_buy_price"],
-                player_data["player_buy_price"],
-                player_data["sell_price"]
-            ))
+    def get_players(self, page, lower_futbin_price, upper_futbin_price):
+        futbin = Futbin()
+        player_info = []
+        for name, rating, rarity, url in futbin.get_players(page, lower_futbin_price, upper_futbin_price):
+            player_info.append((name, rating, rarity, url))
 
-    def get_player(self, n):
-        return self.players[n]
+        # todo remember barometer + prio = 4 permutations
+        player_info.sort()  # ToDo implement: match with current state of performance_barometer
+
+        player_info = player_info[:randint(22, 30)]  # cut to random size
+
+        for name, rating, rarity, url in player_info:
+            futbin = Futbin()
+            ps, pc = futbin.get_player(url)
+            player = Player(name, rating, rarity, pc)
+            self.players.append(player)
+            yield player
+
+    # def get_player(self, n):
+    #     return self.players[n]
 
     def save_to_file(self):
         with open(r'.\vault\players.json', 'r', encoding='utf-8') as f:
@@ -82,6 +87,7 @@ class Players:
                         players_vault[player.name][player.quality].append(player.to_dict())
         with open(r'.\vault\players.json', 'w', encoding='utf-8') as f:
             json.dump(players_vault, f, indent=4)
+        self.players = []
 
 
 if __name__ == '__main__':
@@ -90,4 +96,6 @@ if __name__ == '__main__':
     os.chdir('../..')
 
     players = Players()
-    players.save_to_file()
+    for player in players.get_players(1, 500, 1000):
+        print(f'{player.name}: rating={player.rating}, rarity={player.rarity}, pc={player.pc}, url={player.url}')
+    # players.save_to_file()

@@ -3,24 +3,25 @@ class Player:
     def __init__(
             self,
             name,
-            rating, rarity, quality,
-            min_buy_price, eval_buy_price,
-            player_buy_price, sell_price,
+            rating,
+            rarity,
+            pc,
             performance_barometer=5
     ):
         self.name = name
         self.rating = rating
-        self.quality = quality
         self.rarity = rarity
-        self.min_buy_price = min_buy_price
-        self.eval_buy_price = eval_buy_price
-        self.player_buy_price = player_buy_price
-        self.sell_price = sell_price
+        self.pc = pc
+        self.quality = 'gold'
+        self.min_buy_price = None
+        self.eval_buy_price = None
+        self.player_buy_price = None
+        self.sell_price = None
         self.performance_barometer = performance_barometer
         self.bought_price = None
 
     def __str__(self):
-        out = f'{self.name}, {self.quality}, {self.rarity}, '
+        out = f'{self.name}, {self.rating}, {self.pc}, {self.url}, {self.quality}, {self.rarity}, '
         out += f'min: {self.min_buy_price}, eval: {self.eval_buy_price}, '
         out += f'buy: {self.player_buy_price}, sell: {self.sell_price}, '
         out += f'performance: {self.performance_barometer}'
@@ -38,6 +39,8 @@ class Player:
     def to_dict(self):
         return {
             'name': self.name,
+            'rating': self.rating,
+            'pc': self.pc,
             'quality': self.quality,
             'rarity': self.rarity,
             'min_buy_price': self.min_buy_price,

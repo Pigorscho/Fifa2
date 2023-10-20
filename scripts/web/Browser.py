@@ -1,6 +1,5 @@
 import traceback
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
 from scripts.web.Driver import Driver
@@ -55,39 +54,3 @@ class Browser:
         # appearances = [(contain, attribute), ...]
         check = lambda ele: all(ele and contains in ele.get_attribute(attr) for contains, attr in appearances)
         return [element for element in self.driver.find_elements(by, val) if check(element)]
-
-    def get_players(self, page, lower_futbin_price, upper_futbin_price):  # ToDo hand budget instead of limits
-        url = f"https://www.futbin.com/players?page={page}&pc_price={lower_futbin_price}-{upper_futbin_price}&pos_type=all&sort=pc_price&order=asc&version=gold"
-        self.driver.get(url)
-        cn = 'player_name_players_table'
-        player_names = [name.text for name in self.driver.find_elements(By.CLASS_NAME, cn)]
-        player_ratings = [rating.text for rating in self.driver.find_elements(By.CLASS_NAME, 'rating') if rating.text]
-        player_urls = [url.get_attribute('href') for url in self.driver.find_elements(By.CLASS_NAME, cn)]
-        self.close_browser()
-        # for name, rating, url in zip(player_names, player_ratings, player_urls):
-        #     print(f'{name}: rating={rating}, url={url}')
-        return zip(player_names, player_ratings, player_urls)
-
-    def get_player(self, url):
-        self.driver.get(url)
-        ps = self.driver.find_element(By.ID, 'ps-lowest-1').get_attribute('data-price')
-        pc = self.driver.find_element(By.ID, 'pc-lowest-1').get_attribute('data-price')
-        self.close_browser()
-        # print(f'ps: {ps}, pc: {pc}')
-        return ps, pc
-
-
-if __name__ == '__main__':
-    page = 1
-    lower_futbin_price = 500
-    upper_futbin_price = 1000
-    browser = Browser()
-    for i, (name, rating, url) in enumerate(browser.get_players(page, lower_futbin_price, upper_futbin_price)):
-        browser = Browser()
-        ps, pc = browser.get_player(url)
-        print(f'{name}: rating={rating}, ps={ps}, pc={pc}, url={url}')
-        if i > 0:
-            break
-    # url_to_scrape = "https://www.futbin.com/23/player/26261/karim-benzema"
-    # url_to_scrape = "https://www.futbin.com/23/player/26261/Ramona-Bachmann"
-    # print(browser.get_player(url_to_scrape))
