@@ -15,20 +15,20 @@ class Futbin(Browser):
         # print(f'pages: {pages}')
         return pages
 
-    def get_players(self, page, lower_futbin_price, upper_futbin_price):  # ToDo hand budget instead of limits
-        url = f"https://www.futbin.com/players?page={page}&pc_price={lower_futbin_price}-{upper_futbin_price}&pos_type=all&sort=pc_price&order=asc&version=gold"
+    def get_players(self, page, lower_futbin_price, upper_futbin_price, quality='Gold'):  # ToDo hand budget instead of limits
+        url = f"https://www.futbin.com/players?page={page}&pc_price={lower_futbin_price}-{upper_futbin_price}&pos_type=all&sort=pc_price&order=asc&version={quality}"
         self.driver.get(url)
         cn = 'player_name_players_table'
         player_names = [name.text for name in self.driver.find_elements(By.CLASS_NAME, cn)]
         player_ratings = [rating.text for rating in self.driver.find_elements(By.CLASS_NAME, 'rating') if rating.text]
         player_urls = [url.get_attribute('href') for url in self.driver.find_elements(By.CLASS_NAME, cn)]
-
         player_rarities = [img.get_attribute('class').split(' ')[-1] for img in self.driver.find_elements(By.CLASS_NAME, 'player_img')]
+        player_qualities = [quality for _ in range(len(player_names))]
 
         self.close_browser()
         # for name, rating, url in zip(player_names, player_ratings, player_urls, player_rarities):
-        #     print(f'{name}: rating={rating}, url={url}, rarity={rarity}')
-        return zip(player_names, player_ratings, player_rarities, player_urls)
+        #     print(f'{name}: rating={rating}, url={url}, rarity={rarity}, quality={quality}')
+        return zip(player_names, player_ratings, player_rarities, player_qualities, player_urls)
 
     def get_player(self, url):
         self.driver.get(url)

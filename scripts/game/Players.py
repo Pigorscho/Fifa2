@@ -1,6 +1,7 @@
 import json
 from random import randint
 
+from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
 from scripts.game.Player import Player
 from scripts.game.Futbin import Futbin
 
@@ -49,43 +50,48 @@ dummy_player_data = [
 # }
 
 
-class Players:
-    def __init__(self):
+class Players(FunctionNameDecorator):
+    def __init__(self, mp, motivator):
+        FunctionNameDecorator.__init__(self, mp.print)
+        self.mp = mp
+        self.motivator = motivator
         self.players = []
 
+    @name
     def get_players(self, page, lower_futbin_price, upper_futbin_price):
         futbin = Futbin()
-        player_info = []
-        for name, rating, rarity, url in futbin.get_players(page, lower_futbin_price, upper_futbin_price):
-            player_info.append((name, rating, rarity, url))
+        player_chunk = []
+        for name, rating, rarity, quality, url in futbin.get_players(page, lower_futbin_price, upper_futbin_price):
+            player = Player(name, rating, rarity, quality, url)
+            player_chunk.append(player)
 
-        # todo remember barometer + prio = 4 permutations
-        player_info.sort()  # ToDo implement: match with current state of performance_barometer
+        player_chunk = self.motivator.sort_player_chunk()
 
-        player_info = player_info[:randint(22, 30)]  # cut to random size
+        player_chunk = player_chunk[:randint(20, 30)]  # cut to random size
 
-        for name, rating, rarity, url in player_info:
+        for player in player_chunk:
             futbin = Futbin()
-            ps, pc = futbin.get_player(url)
-            player = Player(name, rating, rarity, pc)
+            ps, pc = futbin.get_player(player.url)
+            player.pc = pc
             self.players.append(player)
             yield player
 
     # def get_player(self, n):
     #     return self.players[n]
 
+    @name
     def save_to_file(self):
-        with open(r'.\vault\players.json', 'r', encoding='utf-8') as f:
+        with open(r'.\vault\performance_list.json', 'r', encoding='utf-8') as f:
             players_vault = json.load(f)
-            for player in self.players:
-                if not player.name in players_vault:
-                    players_vault[player.name] = {player.quality: [player.to_dict()]}
+        for player in self.players:
+            if player.name not in players_vault:
+                players_vault[player.name] = {player.quality: [player.to_dict()]}
+            else:
+                if player.quality not in players_vault[player.name]:
+                    players_vault[player.name][player.quality] = [player.to_dict()]
                 else:
-                    if not player.quality in players_vault[player.name]:
-                        players_vault[player.name][player.quality] = [player.to_dict()]
-                    else:
-                        players_vault[player.name][player.quality].append(player.to_dict())
-        with open(r'.\vault\players.json', 'w', encoding='utf-8') as f:
+                    players_vault[player.name][player.quality].append(player.to_dict())
+        with open(r'.\vault\performance_list.json', 'w', encoding='utf-8') as f:
             json.dump(players_vault, f, indent=4)
         self.players = []
 
@@ -95,7 +101,17 @@ if __name__ == '__main__':
 
     os.chdir('../..')
 
-    players = Players()
+    from scripts.game.Motivator import Motivator
+
+    class MP:
+        def __init__(self):
+            self.print = print
+
+    mp = MP()
+
+    m = Motivator(mp)
+
+    players = Players(mp, m)
     for player in players.get_players(1, 500, 1000):
-        print(f'{player.name}: rating={player.rating}, rarity={player.rarity}, pc={player.pc}, url={player.url}')
+        print(f'{player.name}: rating={player.rating}, rarity={player.rarity}, quality={player.quality}, pc={player.pc}')
     # players.save_to_file()

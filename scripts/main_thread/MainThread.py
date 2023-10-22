@@ -12,9 +12,9 @@ from scripts.game.Rank import Rank
 from scripts.game.Pause import Pause
 from scripts.game.ChronologyController import Chronology
 from scripts.game.Futbin import Futbin
+from scripts.game.Motivator import Motivator
 from scripts.game.Players import Players
 # from scripts.game.Player import Player
-# from scripts.game.Motivator import Motivator
 
 from scripts.game.Exceptions import PanicException
 from scripts.game.Exceptions import DuressException
@@ -39,8 +39,8 @@ class MainThread(Thread, ExceptionHandler):
         self.rank = Rank(mp=self.mprint, budget=self.budget)
         self.pause = Pause(mp=self.mprint, slots=self.slots, budget=self.budget)
         self.chronology = Chronology(mpysin=self.mpysin, mp=self.mprint, slots=self.slots)
-        self.players = Players()
-        # self.motivator = Motivator(self.mprint)
+        self.motivator = Motivator(self.mprint)
+        self.players = Players(self.mprint, self.motivator)
 
         self.threw_panic = False
         self.threw_duress = False
@@ -76,13 +76,14 @@ class MainThread(Thread, ExceptionHandler):
                     return  # page/player loops
 
                 bought_counter = 0
+
+                # Determinator()
                 best_price = self.determine_best_price(player)  # plus minus kacka: die erste
                 if not best_price:
                     # player.punish()  # ToDo implement
                     break  # dont buy this player, go to next player
                 optimized_price = best_price * .95  # transaction fee
                 #ToDo Wo wird der Name und die Kaka eingegeben großes ToDo!!!
-                # Determinator()
                 self.enter_optimized_price(optimized_price)
                 for i in range(2):  # guarantee no loss
                     self.lower_price()  # click minus to decrement price
@@ -101,9 +102,9 @@ class MainThread(Thread, ExceptionHandler):
                         self.sell_player()
 
                 if bought_counter > 2:
-                    self.motivator.reward(player)  # aka player.performance++;
+                    self.motivator.reward_player(player)  # aka player.performance++;
                 elif not self.slots.available > 2:
-                    self.motivator.punish(player)  # aka player.performance--;
+                    self.motivator.punish_player(player)  # aka player.performance--;
 
 
 
