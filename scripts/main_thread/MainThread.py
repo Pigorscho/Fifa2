@@ -14,6 +14,7 @@ from scripts.game.ChronologyController import Chronology
 from scripts.game.Futbin import Futbin
 from scripts.game.Motivator import Motivator
 from scripts.game.Players import Players
+from scripts.game.Determinator import Determinator
 # from scripts.game.Player import Player
 
 from scripts.game.Exceptions import PanicException
@@ -39,8 +40,9 @@ class MainThread(Thread, ExceptionHandler):
         self.rank = Rank(mp=self.mprint, budget=self.budget)
         self.pause = Pause(mp=self.mprint, slots=self.slots, budget=self.budget)
         self.chronology = Chronology(mpysin=self.mpysin, mp=self.mprint, slots=self.slots)
-        self.motivator = Motivator(self.mprint)
-        self.players = Players(self.mprint, self.motivator)
+        self.motivator = Motivator(mp=self.mprint)
+        self.players = Players(mp=self.mprint, motivator=self.motivator)
+        self.determinator = Determinator(mp=self.mprint, mpysin=self.mpysin)
 
         self.threw_panic = False
         self.threw_duress = False
@@ -77,7 +79,6 @@ class MainThread(Thread, ExceptionHandler):
 
                 bought_counter = 0
 
-                # Determinator()
                 best_price = self.determine_best_price(player)  # plus minus kacka: die erste
                 if not best_price:
                     # player.punish()  # ToDo implement

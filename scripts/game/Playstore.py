@@ -15,8 +15,16 @@ class Playstore(FunctionNameDecorator):
         self.mp = mp
 
     def run(self):
+        self.check_for_authentication_issue()
         if self.check_for_update():
             self.get_update()
+
+
+    @name
+    def check_for_authentication_issue(self):
+        cannot_auth = self.mpysin.locate(**pics.cannot_authenticate)
+        if cannot_auth:
+            raise DuressException
 
     @name
     def check_for_update(self):

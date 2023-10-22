@@ -1,5 +1,6 @@
 import os
 import string
+import win32gui
 import pyautogui
 import clipboard
 from time import sleep
@@ -43,6 +44,7 @@ class Emu(Thread):
         x, y, xz, yz = self.coords
         window.moveTo(x, y)
         window.resizeTo(xz, yz)
+        win32gui.SetForegroundWindow(hwnd)
         self.device = androidAutomate.Device(f'emulator-{self.port}', verbose=False)
         self.device.clear_clipboard()
 

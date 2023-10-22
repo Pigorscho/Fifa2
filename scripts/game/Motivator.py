@@ -16,8 +16,8 @@ from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
 
 
 class Motivator(FunctionNameDecorator):
-    PROFITABILITY_THRESHOLD = 10
-    # PROFITABILITY_THRESHOLD = 1
+    # PROFITABILITY_THRESHOLD = 10
+    PROFITABILITY_THRESHOLD = 1
 
     def __init__(self, mp):
         FunctionNameDecorator.__init__(self, mp.print)
@@ -128,3 +128,5 @@ if __name__ == '__main__':
     pl_c = m.sort_player_chunk(pl_c)
     for player in pl_c:
         print(player.__dict__)
+    # for player in pl_c:
+    #     m.save_player_in_motivation_list(player)

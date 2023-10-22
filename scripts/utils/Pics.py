@@ -16,6 +16,7 @@ class Pics:
     software_update_ok = pic_params('software_update_ok')
     software_update_update = pic_params('software_update_update')
     software_update_cancel = pic_params('software_update_cancel')
+    software_update_confirm_btn = pic_params('software_update_confirm_btn')
     home_menu_checkpoint = pic_params('home_menu_checkpoint')
     transfers_menu_checkpoint = pic_params('transfers_menu_checkpoint')
     transfers_list_checkpoint = pic_params('transfers_list_checkpoint')
@@ -27,4 +28,4 @@ class Pics:
     re_list_players_btn = pic_params('re_list_players_btn')
 
     confirm = pic_params('confirm')
-
+    cannot_authenticate = pic_params('cannot_authenticate')
