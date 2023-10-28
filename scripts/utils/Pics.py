@@ -29,3 +29,33 @@ class Pics:
 
     confirm = pic_params('confirm')
     cannot_authenticate = pic_params('cannot_authenticate')
+
+    bid_price_increment_btn = pic_params(r'increment_btn', reg=())
+    bid_price_decrement_btn = pic_params(r'decrement_btn', reg=())
+
+    sell_price_min_increment_btn = pic_params(r'increment_btn', reg=())
+    sell_price_min_decrement_btn = pic_params(r'decrement_btn', reg=())
+
+    sell_price_max_increment_btn = pic_params(r'increment_btn', reg=())
+    sell_price_max_decrement_btn = pic_params(r'decrement_btn', reg=())
+
+    search_btn = pic_params(r'search_btn')
+    reset_player_name_btn = pic_params(r'reset_player_name_btn')
+    reset_filter_btn = pic_params(r'reset_filter_btn')
+    reset_bid_price_btn = pic_params(r'reset_bid_price_btn')
+    reset_buy_price_btn = pic_params(r'reset_buy_price_btn')
+    type_player_name = pic_params(r'type_player_name')
+    player_name_not_found = pic_params(r'player_name_not_found')
+    quality_menu_btn = pic_params(r'quality_menu_btn')
+    rarity_menu_btn = pic_params(r'rarity_menu_btn')
+    max_buy_price_btn = pic_params(r'max_buy_price_btn')
+    enter_price_checkpoint = pic_params(r'enter_price_checkpoint')
+    no_results = pic_params(r'no_results')
+    result = pic_params(r'result')
+    quality_bronze = pic_params(r'quality_bronze')
+    quality_silver = pic_params(r'quality_silver')
+    quality_gold = pic_params(r'quality_gold')
+    quality_special = pic_params(r'quality_special')
+    rarity_common = pic_params(r'rarity_common')
+    rarity_rare = pic_params(r'rarity_rare')
+    rarity_totw = pic_params(r'rarity_totw')

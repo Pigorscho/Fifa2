@@ -13,8 +13,8 @@ dummy_player_data = [
         "rarity": "Rare",
         "quality": "Gold",
         "min_buy_price": 1000,
-        "eval_buy_price": 1100,
-        "player_buy_price": 750,
+        "determined_buy_price": 1100,
+        "best_optimized_price": 750,
         "sell_price": 1200
     },
     {
@@ -23,8 +23,8 @@ dummy_player_data = [
         "rarity": "Rare",
         "quality": "Silver",
         "min_buy_price": 1000,
-        "eval_buy_price": 1100,
-        "player_buy_price": 1050,
+        "determined_buy_price": 1100,
+        "best_optimized_price": 1050,
         "sell_price": 1200
     },
     # ... Add more dummy data as required

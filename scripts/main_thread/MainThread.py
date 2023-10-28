@@ -14,8 +14,9 @@ from scripts.game.ChronologyController import Chronology
 from scripts.game.Futbin import Futbin
 from scripts.game.Motivator import Motivator
 from scripts.game.Players import Players
+from scripts.main_thread.utils.Cremator import Cremator
 from scripts.game.Determinator import Determinator
-# from scripts.game.Player import Player
+from scripts.game.Vendor import Vendor
 
 from scripts.game.Exceptions import PanicException
 from scripts.game.Exceptions import DuressException
@@ -42,7 +43,13 @@ class MainThread(Thread, ExceptionHandler):
         self.chronology = Chronology(mpysin=self.mpysin, mp=self.mprint, slots=self.slots)
         self.motivator = Motivator(mp=self.mprint)
         self.players = Players(mp=self.mprint, motivator=self.motivator)
-        self.determinator = Determinator(mp=self.mprint, mpysin=self.mpysin)
+        self.cremator = Cremator(mp=self.mprint, mpysin=self.mpysin)
+        self.determinator = Determinator(
+            mp=self.mprint, mpysin=self.mpysin, emu=self.emu, cremator=self.cremator
+        )
+        self.vendor = Vendor(
+            mp=self.mprint, mpysin=self.mpysin, slots=self.slots, cremator=self.cremator
+        )
 
         self.threw_panic = False
         self.threw_duress = False
@@ -77,31 +84,12 @@ class MainThread(Thread, ExceptionHandler):
                 if not self.slots.available:
                     return  # page/player loops
 
-                bought_counter = 0
-
-                best_price = self.determine_best_price(player)  # plus minus kacka: die erste
-                if not best_price:
-                    # player.punish()  # ToDo implement
+                best_optimized_price = self.determinator.run(player)
+                if not best_optimized_price:
+                    self.motivator.punish_player(player)
                     break  # dont buy this player, go to next player
-                optimized_price = best_price * .95  # transaction fee
-                #ToDo Wo wird der Name und die Kaka eingegeben großes ToDo!!!
-                self.enter_optimized_price(optimized_price)
-                for i in range(2):  # guarantee no loss
-                    self.lower_price()  # click minus to decrement price
-                best_optimized_price = self.get_best_optimized_price()
 
-                for trying_to_buy_player in range(50):
-
-                    if not self.slots.available or bought_counter > 2:
-                        break  # inner loop
-
-                    if trying_to_buy_player != 0:
-                        self.refresh()  # plus minus kacka: die zweite
-                    if self.buy_player(best_optimized_price):
-                        bought_counter += 1
-                        self.slots.available -= 1
-                        self.sell_player()
-
+                bought_counter = self.vendor.run(player, best_optimized_price)
                 if bought_counter > 2:
                     self.motivator.reward_player(player)  # aka player.performance++;
                 elif not self.slots.available > 2:

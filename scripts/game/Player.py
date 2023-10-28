@@ -15,21 +15,22 @@ class Player:
         self.url = url
         self.pc = None
         self.min_buy_price = None
-        self.eval_buy_price = None
-        self.player_buy_price = None
+        self.determined_buy_price = None
+        self.best_optimized_price = None
+        self.bought_price = None
         self.sell_price = None
         self.performance = None
         # self.last_performance = None
         # self.long_performance = None
-        self.bought_price = None
         self.profit = None
 
     def __str__(self):
         out = f'{self.name}, {self.rating}, {self.pc}, {self.quality}, {self.rarity}, '
-        out += f'min: {self.min_buy_price}, eval: {self.eval_buy_price}, '
-        out += f'buy: {self.player_buy_price}, sell: {self.sell_price}, '
-        out += f'performance: {self.performance}'
+        out += f'min: {self.min_buy_price}, determined: {self.determined_buy_price}, '
+        out += f'best_optimized: {self.best_optimized_price}'
         # out += f', bought: {self.bought_price}'
+        out += f', sell: {self.sell_price}, '
+        out += f'performance: {self.performance}'
         return out
 
     def punish(self):
@@ -48,11 +49,11 @@ class Player:
             'quality': self.quality,
             'pc': self.pc,
             'min_buy_price': self.min_buy_price,
-            'eval_buy_price': self.eval_buy_price,
-            'player_buy_price': self.player_buy_price,
-            'sell_price': self.sell_price,
+            'determined_buy_price': self.determined_buy_price,
+            'best_optimized_price': self.best_optimized_price,
             'performance': self.performance,
             'bought_price': self.bought_price,
+            'sell_price': self.sell_price,
             'profit': self.profit
         }
 

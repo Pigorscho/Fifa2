@@ -127,7 +127,8 @@ class Emu(Thread):
                 # print(f"typed: {part['value']}")
 
     def copy_text(self):
-        os.system("adb shell input keyevent 278")
+        # todo nicetohave instead of one Windows-clipboard instead write to specific files
+        os.system(f'adb -s emulator-{self.port} shell input keyevent 278')
         sleep(.06)
         return clipboard.paste()
 

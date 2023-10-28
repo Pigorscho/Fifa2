@@ -52,6 +52,16 @@ class ManuPysin(FunctionNameDecorator):
         r, g, b, a = rgba
         return r, g, b
 
+    def pixel_matches_color(self, x, y, color, tolerance=0):
+        current_rgb = self.pixel(x, y)
+        current_r, current_g, current_b = current_rgb
+        expected_r, expected_g, expected_b = color
+        return (
+                abs(current_r - expected_r) <= tolerance and
+                abs(current_g - expected_g) <= tolerance and
+                abs(current_b - expected_b) <= tolerance
+        )
+
     def locate(self, pic, con=.9, reg=None, verbose=True, screen=True, find=True, center=True):
         if verbose:
             out = f"locating '{pic}'"
