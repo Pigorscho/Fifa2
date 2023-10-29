@@ -11,7 +11,10 @@ class Pause():
     def run(self):
         did_pause = False
 
-        if self.pause_controller.do_auto_pause() or self.budget.do_budget_pause():
+        if self.pause_controller.do_auto_pause():
+            did_pause = True
+            self.pause_controller.auto_pause()
+        elif self.budget.do_budget_pause():
             did_pause = True
             self.pause_controller.auto_pause()
 

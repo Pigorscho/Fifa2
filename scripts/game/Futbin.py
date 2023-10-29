@@ -20,7 +20,7 @@ class Futbin(Browser):
         self.driver.get(url)
         cn = 'player_name_players_table'
         player_names = [name.text for name in self.driver.find_elements(By.CLASS_NAME, cn)]
-        player_ratings = [rating.text for rating in self.driver.find_elements(By.CLASS_NAME, 'rating') if rating.text]
+        player_ratings = [int(rating.text) for rating in self.driver.find_elements(By.CLASS_NAME, 'rating') if rating.text]
         player_urls = [url.get_attribute('href') for url in self.driver.find_elements(By.CLASS_NAME, cn)]
         player_rarities = [img.get_attribute('class').split(' ')[-1] for img in self.driver.find_elements(By.CLASS_NAME, 'player_img')]
         player_qualities = [quality for _ in range(len(player_names))]

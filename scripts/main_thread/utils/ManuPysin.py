@@ -92,9 +92,8 @@ class ManuPysin(FunctionNameDecorator):
                 self.mp.print(f"could not find '{pic}'", color=color)
         return location
 
-    def locate_all(self, pic, con=.9, reg=None, verbose=True, center=True, gray=False):
-        if verbose:
-            self.mp.print(f"locateAll_ing '{pic}'")
+    @name
+    def locate_all(self, pic, con=.9, reg=None, center=True, gray=False):
         if '.png' not in pic:
             pic = pic + '.png'
         self.screen()
@@ -105,7 +104,7 @@ class ManuPysin(FunctionNameDecorator):
             )
         except Exception as e:
             self.mp.print(f"locate_all with pic: '{pic}' has encountered an error: {e}")
-            locations = None
+            locations = []
         for location in locations:
             if center:
                 location = pyautogui.center(location)
@@ -199,8 +198,9 @@ class ManuPysin(FunctionNameDecorator):
     def crop_img(self, reg, img_path):
         Image.open(rf'.\pics\screen-{self.port}.png').crop(reg).save(img_path)
 
-    def read_numbers(self, reg):
-        self.screen()
+    def read_numbers(self, reg, screen=True):
+        if screen:
+            self.screen()
         digit_path = f'.\pics\digits-{self.port}.png'
         self.crop_img(reg, digit_path)
         return recognize_digits(digit_path)

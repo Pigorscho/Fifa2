@@ -24,12 +24,9 @@ class Budget(FunctionNameDecorator):
 
     @name
     def do_budget_pause(self):
-        return self.budget < self.budget_threshold
-
-    @name
-    def update_budget(self):
         self.budget = self.mpysin.read_numbers(**pil_regs.budget)
         self.mp.print(f'updated budget to: {self.budget}')
+        return self.budget < self.budget_threshold
 
     def get_budget_limit(self, rank):
         if rank == 5:

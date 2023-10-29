@@ -10,3 +10,4 @@ class PILRegs:
     current_selling = reg_params((410, 1468, 236, 100))
     current_sold = reg_params((364, 1565, 236, 100))
     budget = reg_params((900, 243, 330, 80))
+    entered_player_name_reg = reg_params((37, 558, 900, 140))

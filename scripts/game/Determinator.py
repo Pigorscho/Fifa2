@@ -11,24 +11,31 @@ pics = di.get('pics')
 class Determinator(FunctionNameDecorator):
     DETERMINATOR_THRESHOLD = 30
 
-    def __init__(self, mp, mpysin, emu, cremator):
+    def __init__(self, mp, mpysin, emu, cremator, result_checker, motivator):
         FunctionNameDecorator.__init__(self, mp.print)
-        self.sub_determinator = Determinator2(mp, mpysin, emu)
+        self.sub_determinator = Determinator2(mp, mpysin, emu, motivator)
         self.mp = mp
         self.mpysin = mpysin
         self.emu = emu
         self.cremator = cremator
+        self.result_checker = result_checker
 
     def run(self, player):
         best_optimized_price = None
 
         determined_price = self.determine_best_price(player)  # plus minus kacka: die erste
+        player.determined_buy_price = determined_price
         if determined_price:
             optimized_price = determined_price * .95  # transaction fee
             self.enter_optimized_price(optimized_price)
             for i in range(2):  # guarantee no loss
                 self.decrement_search_price()  # click minus to decrement price
             best_optimized_price = self.sub_determinator.get_best_optimized_price()
+        player.best_optimized_price = best_optimized_price
+        sell_price = None
+        if best_optimized_price:
+            sell_price = best_optimized_price * 1.05
+        player.sell_price = sell_price
 
         return best_optimized_price
 
@@ -58,32 +65,38 @@ class Determinator(FunctionNameDecorator):
         """
         determined_price = None
 
-        if not self.mpysin.checkpoint(**pics.transfers_market_checkpoint):
+        if not self.mpysin.check_point(**pics.transfers_market_checkpoint):
             return
         self.sub_determinator.reset_filters()
         self.sub_determinator.enter_name(player)
-        self.sub_determinator.select_searched_player(player)
-        self.sub_determinator.select_quality(player)
-        self.sub_determinator.select_rarity(player)
-        self.sub_determinator.scroll_down_inside_transfer_menu()
-        self.sub_determinator.enter_price(player)
-        self.sub_determinator.search_player(player)
+        selected = self.sub_determinator.select_searched_player(player)
+        if selected:
+            self.sub_determinator.select_quality(player)
+            self.sub_determinator.select_rarity(player)
+            self.sub_determinator.scroll_down_inside_transfer_menu()
+            self.sub_determinator.enter_price(player)
+            self.sub_determinator.search_player()
 
-        for determining in range(self.DETERMINATOR_THRESHOLD):
-            results = self.sub_determinator.check_for_results(player)
-            if results == 'good_results':
-                self.mpysin.back()
-                determined_price = self.sub_determinator.get_determined_price(player)
-                break
+            for determining in range(self.DETERMINATOR_THRESHOLD):
+                results = self.result_checker.check_results()
+                self.mp.print(f'results: {results}')
+                if results == 'good_results':
+                    self.mpysin.back()
+                    self.sub_determinator.scroll_down_inside_transfer_menu()
+                    determined_price = self.sub_determinator.get_determined_price()
+                    break
 
-            elif results == 'no_results':
-                self.mpysin.back()
-                self.increment_search_price(player)
-                self.search_player_again(player)
-            elif results == 'too_many_results':
-                self.mpysin.back()
-                self.decrement_search_price(player)
-                self.search_player_again(player)
+                elif results == 'no_results':
+                    self.mpysin.back()
+                    self.sub_determinator.scroll_down_inside_transfer_menu()
+                    self.increment_search_price()
+                elif results == 'too_many_results':
+                    self.mpysin.back()
+                    self.sub_determinator.scroll_down_inside_transfer_menu()
+                    self.decrement_search_price()
+
+                self.search_player_again()
+            self.search_player_again()
 
         return determined_price
 
@@ -118,7 +131,7 @@ class Determinator(FunctionNameDecorator):
         """
         search player again
         """
-        if not self.mpysin.checkpoint(**pics.transfers_market_checkpoint):
+        if not self.mpysin.check_point(**pics.transfers_market_checkpoint):
             return
         search_btn = self.mpysin.locate(**pics.search_btn)
         self.mpysin.click(*search_btn)

@@ -54,5 +54,59 @@
                 "profit": 450
             }
         ]
+    },
+    "Fabinho": {
+        "Gold": [
+            {
+                "name": "Fabinho",
+                "rating": "84",
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,000",
+                "min_buy_price": null,
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Sara D\u00e4britz": {
+        "Gold": [
+            {
+                "name": "Sara D\u00e4britz",
+                "rating": "84",
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,000",
+                "min_buy_price": null,
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 3,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Eug\u00e9nie Le Sommer": {
+        "Gold": [
+            {
+                "name": "Eug\u00e9nie Le Sommer",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,000",
+                "min_buy_price": null,
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 3,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
     }
 }

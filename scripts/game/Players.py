@@ -65,7 +65,7 @@ class Players(FunctionNameDecorator):
             player = Player(name, rating, rarity, quality, url)
             player_chunk.append(player)
 
-        player_chunk = self.motivator.sort_player_chunk()
+        player_chunk = self.motivator.sort_player_chunk(player_chunk)
 
         player_chunk = player_chunk[:randint(20, 30)]  # cut to random size
 

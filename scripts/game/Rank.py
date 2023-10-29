@@ -65,7 +65,7 @@ if __name__ == '__main__':
     for budget in budgets:
         b = Budget(budget)
         r = Rank(mp, b)
-        r.determine_rank()
+        # r.determine_rank()
         print(f'{budget}: {r.test_get_url()}')
 
 

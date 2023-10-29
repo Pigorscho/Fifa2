@@ -14,7 +14,6 @@ class Player:
         self.quality = quality
         self.url = url
         self.pc = None
-        self.min_buy_price = None
         self.determined_buy_price = None
         self.best_optimized_price = None
         self.bought_price = None
@@ -26,7 +25,7 @@ class Player:
 
     def __str__(self):
         out = f'{self.name}, {self.rating}, {self.pc}, {self.quality}, {self.rarity}, '
-        out += f'min: {self.min_buy_price}, determined: {self.determined_buy_price}, '
+        out += f'min: determined: {self.determined_buy_price}, '
         out += f'best_optimized: {self.best_optimized_price}'
         # out += f', bought: {self.bought_price}'
         out += f', sell: {self.sell_price}, '

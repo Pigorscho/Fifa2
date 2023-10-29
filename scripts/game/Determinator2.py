@@ -7,16 +7,16 @@ from scripts.utils.PILRegs import reg_params
 
 rs = di.get('rs')
 pics = di.get('pics')
-regs = di.get('regs')
-
+regs = di.get('pil_regs')
 
 
 class Determinator2(FunctionNameDecorator):
-    def __init__(self, mp, mpysin, emu):
+    def __init__(self, mp, mpysin, emu, motivator):
         FunctionNameDecorator.__init__(self, mp.print)
         self.mp = mp
         self.mpysin = mpysin
         self.emu = emu
+        self.motivator = motivator
 
     @name
     def reset_filters(self):
@@ -26,14 +26,14 @@ class Determinator2(FunctionNameDecorator):
         reset_filter_btn = self.mpysin.locate(**pics.reset_filter_btn)
         if reset_filter_btn:
             self.mpysin.click(*reset_filter_btn)
-            print(reset_filter_btn)
+            # print(reset_filter_btn)
         self.scroll_down_inside_transfer_menu()
         reset_bid_price_btn = self.mpysin.wait_for(4, 1, **pics.reset_bid_price_btn)
         if reset_bid_price_btn:
-            self.mpysin.click(*reset_bid_price_btn)
+            self.mpysin.click(*reset_bid_price_btn, dur=1)
         reset_buy_price_btn = self.mpysin.wait_for(4, 1, **pics.reset_buy_price_btn)
         if reset_buy_price_btn:
-            self.mpysin.click(*reset_buy_price_btn)
+            self.mpysin.click(*reset_buy_price_btn, dur=1)
         self.scroll_up_inside_transfer_menu()
 
     @name
@@ -41,24 +41,27 @@ class Determinator2(FunctionNameDecorator):
         type_player_name = self.mpysin.locate(**pics.type_player_name)
         if not type_player_name:
             raise Exception('type_player_name not found')
-        self.mpysin.click(*type_player_name, dur=2)
+        x, y = type_player_name
+        x += 500
+        self.mpysin.click(x, y, dur=2)
         self.mpysin.typewrite(player.name, dur=2)
         self.mpysin.back()
 
     @name
     def select_searched_player(self, player):
+        selected = False
         player_name_not_found = self.mpysin.locate(**pics.player_name_not_found, find=False)
         if player_name_not_found:
-            # player.name # ToDo Blacklist Player
-            pass
+            self.motivator.punish_player(player)
+            # ToDo nicetohave Blacklist Player
         else:
-            sleep(.3)
-            print('looking for player results')
+            sleep(.25)
+            self.mp.print('looking for player results')
             self.mpysin.screen()
             self.mpysin.crop_img(
                 regs.entered_player_name_reg['reg'], r'./pics/all_entered_player_name.png'
             )
-            found_results = self.mpysin.wait_for(10, 1, **pics.player_name_search_results)
+            found_results = self.mpysin.wait_for(10, .1, **pics.player_name_search_results)
             if found_results:
                 player_name_results = self.mpysin.locate_all(
                     **pics.all_entered_player_name, gray=True, center=False
@@ -66,7 +69,7 @@ class Determinator2(FunctionNameDecorator):
                 for player_name_result in player_name_results:
                     x, y, xz, yz = player_name_result
                     # x += 670
-                    a, b, az, bz = 940, y, 100, 100
+                    a, b, az, bz = 940, y, 150, 100
                     # print(a, b, az, bz)
                     corresponding_rating = self.mpysin.read_numbers(reg_params((a, b, az, bz))['reg'])
                     print(f'y: {y}, rating: {corresponding_rating}')
@@ -75,6 +78,10 @@ class Determinator2(FunctionNameDecorator):
                     if 'special' not in player.quality and corresponding_rating == player.rating:
                         print("clicking selected player")
                         self.mpysin.click(*pyautogui.center((a, b, az, bz)))
+                        selected = True
+            unnoetig = selected
+            print(f'generator_results: {selected}')
+            return selected
 
     @name
     def select_quality(self, player):
@@ -98,22 +105,12 @@ class Determinator2(FunctionNameDecorator):
 
     @name
     def enter_price(self, player):
-        transfer_menu_scroll_to_price_checkpoint = self.mpysin.check_point(
-            **pics.transfer_menu_scroll_to_price_checkpoint
-        )
-        if transfer_menu_scroll_to_price_checkpoint:
-            # min_buy_price_btn = self.locate(**pics.min_buy_price_btn)
-            # self.click(*min_buy_price_btn, 2)
-            # enter_price_checkpoint = self.check_point(**pics.enter_price_checkpoint)
-            # if enter_price_checkpoint:
-            #     print(f'player price: {player.best_optimized_price}')
-            #     self.typewrite(player.best_optimized_price, 1)
-            #     self.back(1)
+        if self.mpysin.check_point(**pics.transfer_menu_scroll_to_price_checkpoint):
             self.max_buy_now_price = self.mpysin.locate(**pics.max_buy_price_btn)
             self.mpysin.click(*self.max_buy_now_price, 2)
             enter_price_checkpoint_2 = self.mpysin.check_point(**pics.enter_price_checkpoint)
             if enter_price_checkpoint_2:
-                self.mpysin.typewrite(player.best_optimized_price)
+                self.mpysin.typewrite(player.pc)
                 self.mpysin.back()
 
     @name
@@ -121,22 +118,6 @@ class Determinator2(FunctionNameDecorator):
         search_btn = self.mpysin.locate(**pics.search_btn)
         if search_btn:
             self.mpysin.click(*search_btn, 2)
-
-    @name
-    def check_for_results(self):
-        no_results = self.mpysin.locate(**pics.no_results, find=False)
-        if no_results:
-            self.mpysin.back()
-            result = 'no_results'
-        else:
-            results = self.mpysin.locate_all(**pics.result, find=False)
-            if len(results) > 3:  # too_many_results
-                self.mpysin.back()
-                result = 'too_many_results'
-            else:  # results_good
-                result = 'good_results'
-
-        return result
 
     @name
     def get_price_from_input_field(self):
@@ -156,6 +137,5 @@ class Determinator2(FunctionNameDecorator):
 
     @name
     def scroll_up_inside_transfer_menu(self):
-        self.mpysin.drag(535, 400, 535, 1490, 500)
+        self.mpysin.drag(740, 770, 740, 2080, 500)
         rs.sleep(.5)
-

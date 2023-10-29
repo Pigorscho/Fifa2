@@ -8,16 +8,19 @@ pics = di.get('pics')
 
 
 class Vendor(FunctionNameDecorator):
-    def __init__(self, mp, mpysin, slots, cremator):
+    def __init__(self, mp, mpysin, slots, cremator, result_checker):
         FunctionNameDecorator.__init__(self, mp.print)
         self.sub_vendor = Vendor2(mp, mpysin, cremator)
         self.mp = mp
         self.mpysin = mpysin
         self.slots = slots
         self.cremator = cremator
+        self.result_checker = result_checker
+
+        self.refresh_toggle = True  # plus/minus memory
 
     @name
-    def run(self, player, best_optimized_price):
+    def run(self, player):
 
         bought_counter = 0
 
@@ -28,56 +31,45 @@ class Vendor(FunctionNameDecorator):
 
             if trying_to_buy_player != 0:
                 self.refresh_results()  # plus minus kacka: die zweite
-            if self.buy_player(player, best_optimized_price):
-                self.sell_player()
+            if self.buy_player(player):
+                self.sell_player(player)
                 self.slots.available -= 1
                 bought_counter += 1
+            self.sub_vendor.navigate_to_transfer_market_menu()
 
         return bought_counter
 
     @name
+    def buy_player(self, player):
+        bought = False
+
+        results = self.result_checker.check_results()
+        if results == 'good_results':
+            arrows = self.sub_vendor.locate_arrows()
+            chosen_result = self.sub_vendor.process_arrows(arrows)
+            self.mpysin.click(*chosen_result)
+            self.sub_vendor.click_buy_now()
+            bought = self.sub_vendor.approve_purchase(player)
+
+        return bought
+
+
+    @name
+    def sell_player(self, player):
+        self.sub_vendor.list_on_transfer_market()
+        self.sub_vendor.scroll_down_inside_selling_menu()
+        self.sub_vendor.enter_sell_price(player)
+        self.sub_vendor.send_to_auction()
+
+    @name
     def refresh_results(self):
-        """
-        nach dem ersten mal spieler suchen: for i in range('Spielerkaufversuche'):
-        click plus min_bid_price
-        click plus min_buy_price
-        search
-        if no_results or player_purchase successfully:
-            click minus min_bid_price
-            click minus min_buy_price
-            search
-
-        :return:
-        """
-        pass
-
-    @name
-    def sell_player(self):
-        """
-        self.list_on_transfer_market()
-        self.scroll_down_inside_selling_menu()
-        self.enter_sell_price()
-        self.send_to_auction()
-        :return:
-        """
-        pass
-
-    @name
-    def buy_player(self, player, best_optimized_price):
-        """
-        self.click_player_result()
-        self.click_buy_now()
-        checked_purchase = self.approve_purchase()
-        if checked_purchase:
-            self.sell_player()
-            self.back()
-            rs.sleep(1)
-            self.back()
-
-        return checked_purchase
-
-        :param player:
-        :param best_optimized_price:
-        :return:
-        """
-        pass
+        if self.refresh_toggle:
+            self.refresh_toggle = False
+            self.cremator.increment(pics.bid_price_increment_btn)
+            self.cremator.increment(pics.sell_price_min_increment_btn)
+            self.mpysin.click(*pics.search_btn)
+        else:
+            self.refresh_toggle = True
+            self.cremator.decrement(pics.bid_price_decrement_btn)
+            self.cremator.decrement(pics.sell_price_min_decrement_btn)
+            self.mpysin.click(*pics.search_btn)

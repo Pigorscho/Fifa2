@@ -15,6 +15,7 @@ from scripts.game.Futbin import Futbin
 from scripts.game.Motivator import Motivator
 from scripts.game.Players import Players
 from scripts.main_thread.utils.Cremator import Cremator
+from scripts.main_thread.utils.ResultChecker import ResultChecker
 from scripts.game.Determinator import Determinator
 from scripts.game.Vendor import Vendor
 
@@ -44,11 +45,14 @@ class MainThread(Thread, ExceptionHandler):
         self.motivator = Motivator(mp=self.mprint)
         self.players = Players(mp=self.mprint, motivator=self.motivator)
         self.cremator = Cremator(mp=self.mprint, mpysin=self.mpysin)
+        self.result_checker = ResultChecker(mp=self.mprint, mpysin=self.mpysin)
         self.determinator = Determinator(
-            mp=self.mprint, mpysin=self.mpysin, emu=self.emu, cremator=self.cremator
+            mp=self.mprint, mpysin=self.mpysin, emu=self.emu,
+            cremator=self.cremator, result_checker=self.result_checker, motivator=self.motivator
         )
         self.vendor = Vendor(
-            mp=self.mprint, mpysin=self.mpysin, slots=self.slots, cremator=self.cremator
+            mp=self.mprint, mpysin=self.mpysin, slots=self.slots,
+            cremator=self.cremator, result_checker=self.result_checker
         )
 
         self.threw_panic = False
@@ -89,11 +93,12 @@ class MainThread(Thread, ExceptionHandler):
                     self.motivator.punish_player(player)
                     break  # dont buy this player, go to next player
 
-                bought_counter = self.vendor.run(player, best_optimized_price)
+                bought_counter = self.vendor.run(player)
                 if bought_counter > 2:
                     self.motivator.reward_player(player)  # aka player.performance++;
                 elif not self.slots.available > 2:
                     self.motivator.punish_player(player)  # aka player.performance--;
+            self.players.save_to_file()
 
 
 
