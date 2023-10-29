@@ -18,6 +18,7 @@ class Cremator(FunctionNameDecorator):
         self.mpysin.click(*increment_btn)
 
     @name
-    def decrement(self, btn):
+    def decrement(self, btn, i=1):
         decrement_btn = self.mpysin.locate(**btn)
-        self.mpysin.click(*decrement_btn)
+        for _ in range(i):
+            self.mpysin.click(*decrement_btn, dur=.05)

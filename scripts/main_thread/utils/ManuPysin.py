@@ -205,6 +205,9 @@ class ManuPysin(FunctionNameDecorator):
         self.crop_img(reg, digit_path)
         return recognize_digits(digit_path)
 
+    def checkpoint(self, *args, **kwargs):
+        return self.check_point(*args, **kwargs)
+
     @name
     def check_point(self, pic, con=.9, reg=None, reverse=False, i=5, dur=1):
         self.mp.print(f"checkpointing '{pic}'")

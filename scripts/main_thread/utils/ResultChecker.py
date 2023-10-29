@@ -16,7 +16,6 @@ class ResultChecker(FunctionNameDecorator):
 
         no_results = self.mpysin.locate(**pics.no_results, find=False)
         if no_results:
-            self.mpysin.back()
             results = 'no_results'
         else:
             fourth_result = self.mpysin.locate(**pics.fourth_result, find=False)

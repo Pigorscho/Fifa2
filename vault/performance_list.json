@@ -108,5 +108,396 @@
                 "profit": null
             }
         ]
+    },
+    "Gabriel Jesus": {
+        "Gold": [
+            {
+                "name": "Gabriel Jesus",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,100",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Kevin Trapp": {
+        "Gold": [
+            {
+                "name": "Kevin Trapp",
+                "rating": 85,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "7,000",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Ann-Katrin Berger": {
+        "Gold": [
+            {
+                "name": "Ann-Katrin Berger",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,300",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Svenja Huth": {
+        "Gold": [
+            {
+                "name": "Svenja Huth",
+                "rating": 85,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "7,000",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Katie McCabe": {
+        "Gold": [
+            {
+                "name": "Katie McCabe",
+                "rating": 85,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "8,300",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Delphine Cascarino": {
+        "Gold": [
+            {
+                "name": "Delphine Cascarino",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,300",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Alessandro Bastoni": {
+        "Gold": [
+            {
+                "name": "Alessandro Bastoni",
+                "rating": 85,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "7,000",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Yassine Bounou": {
+        "Gold": [
+            {
+                "name": "Yassine Bounou",
+                "rating": 85,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "8,500",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Ebony Salmon": {
+        "Gold": [
+            {
+                "name": "Ebony Salmon",
+                "rating": 79,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,400",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Rachel Daly": {
+        "Gold": [
+            {
+                "name": "Rachel Daly",
+                "rating": 85,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "7,000",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Keylor Navas": {
+        "Gold": [
+            {
+                "name": "Keylor Navas",
+                "rating": 85,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "8,400",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Kalidou Koulibaly": {
+        "Gold": [
+            {
+                "name": "Kalidou Koulibaly",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,500",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Thomas Partey": {
+        "Gold": [
+            {
+                "name": "Thomas Partey",
+                "rating": 85,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "7,000",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Franco Cervi": {
+        "Gold": [
+            {
+                "name": "Franco Cervi",
+                "rating": 77,
+                "rarity": "non-rare",
+                "quality": "Gold",
+                "pc": "8,400",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Jess Fishlock": {
+        "Gold": [
+            {
+                "name": "Jess Fishlock",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,500",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Fran Kirby": {
+        "Gold": [
+            {
+                "name": "Fran Kirby",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "7,100",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Ashleigh Neville": {
+        "Gold": [
+            {
+                "name": "Ashleigh Neville",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "8,700",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Thilo Kehrer": {
+        "Gold": [
+            {
+                "name": "Thilo Kehrer",
+                "rating": 76,
+                "rarity": "non-rare",
+                "quality": "Gold",
+                "pc": "5,600",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "David Alaba": {
+        "Gold": [
+            {
+                "name": "David Alaba",
+                "rating": 85,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "7,100",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Andr\u00e9 Onana": {
+        "Gold": [
+            {
+                "name": "Andr\u00e9 Onana",
+                "rating": 85,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "8,700",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Luis Alberto": {
+        "Gold": [
+            {
+                "name": "Luis Alberto",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,700",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Romelu Lukaku": {
+        "Gold": [
+            {
+                "name": "Romelu Lukaku",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,900",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "\u00c1lex Remiro": {
+        "Gold": [
+            {
+                "name": "\u00c1lex Remiro",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "7,100",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 3,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
     }
 }

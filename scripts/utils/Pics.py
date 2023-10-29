@@ -21,7 +21,7 @@ class Pics:
 
     player_rarity_map = {
         "non-rare": rarity_common,
-        "Rare": rarity_rare,
+        "rare": rarity_rare,
         "Ones_to_watch": rarity_otw,
         "Team_of_the_week": rarity_totm
     }
@@ -61,11 +61,11 @@ class Pics:
     sell_price_max_increment_btn = pic_params(r'increment_btn', reg=(3, 2456, 1427, 195))
     sell_price_max_decrement_btn = pic_params(r'decrement_btn', reg=(3, 2456, 1427, 195))
 
-    search_btn = pic_params(r'search_btn')
+    search_btn = pic_params(r'search_btn', reg=(750, 1715, 640, 1160))
     reset_player_name_btn = pic_params(r'reset_player_name_btn')
     reset_filter_btn = pic_params(r'reset_filter_btn')
-    reset_bid_price_btn = pic_params(r'reset_bid_price_btn', con=.95, reg=(1250, 1450, 186, 132))
-    reset_buy_price_btn = pic_params(r'reset_buy_price_btn', con=.95, reg=(1250, 2080, 186, 132))
+    reset_bid_price_btn = pic_params(r'reset_bid_price_btn', con=.99, reg=(1250, 1450, 186, 132))
+    reset_buy_price_btn = pic_params(r'reset_buy_price_btn', con=.99, reg=(1250, 2080, 186, 132))
     type_player_name = pic_params(r'type_player_name')
     player_name_not_found = pic_params(r'player_name_not_found')
     quality_menu_btn = pic_params(r'quality_menu_btn')

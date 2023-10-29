@@ -72,15 +72,14 @@ class Determinator2(FunctionNameDecorator):
                     a, b, az, bz = 940, y, 150, 100
                     # print(a, b, az, bz)
                     corresponding_rating = self.mpysin.read_numbers(reg_params((a, b, az, bz))['reg'])
-                    print(f'y: {y}, rating: {corresponding_rating}')
+                    self.mp.print(f'y: {y}, rating: {corresponding_rating}')
                     # print("1", bool('special' not in player.rating))
                     # print("2", bool(corresponding_rating == player.rating))
                     if 'special' not in player.quality and corresponding_rating == player.rating:
-                        print("clicking selected player")
+                        # print("clicking selected player")
                         self.mpysin.click(*pyautogui.center((a, b, az, bz)))
                         selected = True
-            unnoetig = selected
-            print(f'generator_results: {selected}')
+            # print(f'generator_results: {selected}')
             return selected
 
     @name
@@ -121,11 +120,10 @@ class Determinator2(FunctionNameDecorator):
 
     @name
     def get_price_from_input_field(self):
-        if not self.mpysin.checkpoint(**pics.transfers_market_checkpoint):
+        if not self.mpysin.check_point(**pics.transfers_market_checkpoint):
             return
-        self.scroll_down_inside_transfer_menu()
         self.mpysin.click(705, 2550)
-        self.emu.copy_text()
+        return self.emu.copy_text()
 
     @name
     def get_best_optimized_price(self):

@@ -47,7 +47,6 @@ class Player:
             'rarity': self.rarity,
             'quality': self.quality,
             'pc': self.pc,
-            'min_buy_price': self.min_buy_price,
             'determined_buy_price': self.determined_buy_price,
             'best_optimized_price': self.best_optimized_price,
             'performance': self.performance,
