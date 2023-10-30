@@ -499,5 +499,39 @@
                 "profit": null
             }
         ]
+    },
+    "R\u00faben Neves": {
+        "Gold": [
+            {
+                "name": "R\u00faben Neves",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,200",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
+    },
+    "Caitlin Foord": {
+        "Gold": [
+            {
+                "name": "Caitlin Foord",
+                "rating": 84,
+                "rarity": "rare",
+                "quality": "Gold",
+                "pc": "5,000",
+                "determined_buy_price": null,
+                "best_optimized_price": null,
+                "performance": 4,
+                "bought_price": null,
+                "sell_price": null,
+                "profit": null
+            }
+        ]
     }
 }

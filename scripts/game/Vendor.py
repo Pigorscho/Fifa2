@@ -47,9 +47,10 @@ class Vendor(FunctionNameDecorator):
         if results == 'good_results':
             arrows = self.sub_vendor.locate_arrows()
             chosen_result = self.sub_vendor.process_arrows(arrows)
-            self.mpysin.click(*chosen_result)
-            self.sub_vendor.click_buy_now()
-            bought = self.sub_vendor.approve_purchase(player)
+            if chosen_result:
+                self.mpysin.click(*chosen_result)
+                self.sub_vendor.click_buy_now()
+                bought = self.sub_vendor.approve_purchase(player)
 
         return bought
 
@@ -67,9 +68,10 @@ class Vendor(FunctionNameDecorator):
             self.refresh_toggle = False
             self.cremator.increment(pics.bid_price_increment_btn)
             self.cremator.increment(pics.sell_price_min_increment_btn)
-            self.mpysin.click(*pics.search_btn)
         else:
             self.refresh_toggle = True
             self.cremator.decrement(pics.bid_price_decrement_btn)
             self.cremator.decrement(pics.sell_price_min_decrement_btn)
-            self.mpysin.click(*pics.search_btn)
+        search_btn = self.mpysin.locate(**pics.search_btn)
+        if search_btn:
+            self.mpysin.click(*search_btn)

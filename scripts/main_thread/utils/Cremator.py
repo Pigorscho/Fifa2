@@ -1,5 +1,3 @@
-
-
 from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
 from scripts.DI.DI import di
 
@@ -15,10 +13,14 @@ class Cremator(FunctionNameDecorator):
     @name
     def increment(self, btn):
         increment_btn = self.mpysin.locate(**btn)
+        if not increment_btn:
+            return
         self.mpysin.click(*increment_btn)
 
     @name
     def decrement(self, btn, i=1):
         decrement_btn = self.mpysin.locate(**btn)
+        if not decrement_btn:
+            return
         for _ in range(i):
             self.mpysin.click(*decrement_btn, dur=.05)

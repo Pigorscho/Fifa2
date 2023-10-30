@@ -43,7 +43,7 @@ class Vendor2(FunctionNameDecorator):
     def navigate_to_transfer_market_menu(self):
         self.mpysin.back(dur=2)
         self.mpysin.back(dur=2)
-        self.mpysin.check_point(**pics.transfer_market_menu_checkpoint)
+        self.mpysin.check_point(**pics.transfers_menu_checkpoint)
 
     @name
     def locate_arrows(self):
@@ -59,6 +59,8 @@ class Vendor2(FunctionNameDecorator):
 
     @name
     def process_arrows(self, arrows):
+        arrow = None
+
         numbers = []
         for i, arrow in enumerate(arrows):
             coin = self.mpysin.locate(**pics.__getattribute__(f'coin_result_{i}'), screen=False)
@@ -66,10 +68,12 @@ class Vendor2(FunctionNameDecorator):
             region = self.coin_indicator.calculate_region_by_coin(start_point, coin)
             number = self.mpysin.read_numbers(region, screen=False)
             numbers.append(number)
-        smallest_number = min(numbers)
-        index = numbers.index(smallest_number)
+        if numbers:
+            smallest_number = min(numbers)
+            index = numbers.index(smallest_number)
+            arrow = arrows[index]
 
-        return arrows[index]
+        return arrow
 
     @name
     def click_buy_now(self):

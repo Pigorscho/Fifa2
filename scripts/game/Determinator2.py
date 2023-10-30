@@ -28,12 +28,13 @@ class Determinator2(FunctionNameDecorator):
             self.mpysin.click(*reset_filter_btn)
             # print(reset_filter_btn)
         self.scroll_down_inside_transfer_menu()
-        reset_bid_price_btn = self.mpysin.wait_for(4, 1, **pics.reset_bid_price_btn)
-        if reset_bid_price_btn:
-            self.mpysin.click(*reset_bid_price_btn, dur=1)
-        reset_buy_price_btn = self.mpysin.wait_for(4, 1, **pics.reset_buy_price_btn)
-        if reset_buy_price_btn:
-            self.mpysin.click(*reset_buy_price_btn, dur=1)
+        expected_color = 252, 252, 247  # white
+        reset_bid_price_pixel = 1288, 1538
+        if self.mpysin.pixel_matches_color(reset_bid_price_pixel, expected_color, tolerance=25):
+            self.mpysin.click(*reset_bid_price_pixel)
+        reset_buy_price_pixel = 1287, 2144
+        if self.mpysin.pixel_matches_color(reset_buy_price_pixel, expected_color, tolerance=25):
+            self.mpysin.click(*reset_buy_price_pixel)
         self.scroll_up_inside_transfer_menu()
 
     @name
@@ -114,7 +115,7 @@ class Determinator2(FunctionNameDecorator):
 
     @name
     def search_player(self):
-        search_btn = self.mpysin.locate(**pics.search_btn)
+        search_btn = self.mpysin.wait_for(5, 1, **pics.search_btn)
         if search_btn:
             self.mpysin.click(*search_btn, 2)
 
@@ -123,7 +124,11 @@ class Determinator2(FunctionNameDecorator):
         if not self.mpysin.check_point(**pics.transfers_market_checkpoint):
             return
         self.mpysin.click(705, 2550)
-        return self.emu.copy_text()
+        txt = self.emu.copy_text()
+        if txt:
+            txt = txt.replace(',', '').replace('.', '')
+            txt = int(txt)
+        return txt
 
     @name
     def get_best_optimized_price(self):

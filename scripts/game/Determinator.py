@@ -2,7 +2,6 @@
 from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
 from scripts.DI.DI import di
 
-from scripts.main_thread.utils.Cremator import Cremator
 from scripts.game.Determinator2 import Determinator2
 
 pics = di.get('pics')
@@ -27,15 +26,14 @@ class Determinator(FunctionNameDecorator):
         determined_price = self.determine_best_price(player)  # plus minus kacka: die erste
         player.determined_buy_price = determined_price
         if determined_price:
-            optimized_price = determined_price * .95  # transaction fee
+            optimized_price = int(determined_price * .95)  # transaction fee
             self.enter_optimized_price(optimized_price)
-            # for i in range(2):  # guarantee no loss
-            self.decrement_search_price(i=2)  # click minus to decrement price
+            self.decrement_search_price(i=2)  # guarantee no loss
             best_optimized_price = self.sub_determinator.get_best_optimized_price()
         player.best_optimized_price = best_optimized_price
         sell_price = None
         if best_optimized_price:
-            sell_price = best_optimized_price * 1.05
+            sell_price = int(best_optimized_price * 1.05)
         else:
             self.mpysin.back()
         player.sell_price = sell_price
@@ -114,11 +112,13 @@ class Determinator(FunctionNameDecorator):
         self.click max search price
         enter optimized price
         """
+        self.mpysin.back()
         if not self.mpysin.checkpoint(**pics.transfers_market_checkpoint):
             return
         self.sub_determinator.scroll_down_inside_transfer_menu()
         self.mpysin.click(705, 2550)
         self.mpysin.typewrite(optimized_price)
+        self.mpysin.back()
 
     @name
     def decrement_search_price(self, i):

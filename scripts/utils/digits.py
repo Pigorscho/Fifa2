@@ -1,6 +1,10 @@
 from PIL import Image
 import pytesseract
 
+try:
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Users\Sintax\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'  # For Windows
+except Exception:
+    pass
 
 def recognize_digits(image_path):
     # Open the image
