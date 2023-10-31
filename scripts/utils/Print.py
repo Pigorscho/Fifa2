@@ -54,7 +54,16 @@ if __name__ == '__main__':
     p.print('italic GREEN', color=Colors.GREEN, italic=True)
     p.print('italic RED', color=Colors.RED, italic=True)
 
-    p.print('bg PINK', color=Colors.PINK, bg=Colors.BG_BLACK)
+    p.print('PINK', color=Colors.PINK, bg=Colors.BG_BLACK)
+    p.print('BLUE', color=Colors.BLUE, bg=Colors.BG_BLACK)
+    p.print('CYAN', color=Colors.CYAN, bg=Colors.BG_BLACK)
+    p.print('YELLOW', color=Colors.YELLOW, bg=Colors.BG_BLACK)
+    p.print('GREEN', color=Colors.GREEN, bg=Colors.BG_BLACK)
+    p.print('PURPLE', color=Colors.PURPLE, bg=Colors.BG_BLACK)
+    p.print('GREY', color=Colors.GREY, bg=Colors.BG_BLACK)
+    p.print('ORANGE', color=Colors.ORANGE, bg=Colors.BG_BLACK)
+    p.print('RED', color=Colors.RED, bg=Colors.BG_BLACK)
+
     p.print('bg BLUE', color=Colors.BLUE, bg=Colors.BG_RED)
     p.print('bg CYAN', color=Colors.CYAN, bg=Colors.BG_GREEN)
     p.print('bg YELLOW', color=Colors.YELLOW, bg=Colors.BG_ORANGE)

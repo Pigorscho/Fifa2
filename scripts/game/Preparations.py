@@ -40,7 +40,7 @@ class Preparations(FunctionNameDecorator):
 
         if self.mpysin.locate(**pics.homescreen):
             self.mpysin.start_app()
-            sleep(10)
+            sleep(20)
 
     @name
     def login(self):

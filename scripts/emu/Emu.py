@@ -28,11 +28,15 @@ class Emu(Thread):
             command += rf'{self.name} {self.port}'
             print(f"starting Emulator for '{self.name}' on port: {self.port}")
             os.system(command)
-            for waiting in range(30):
-                hwnd = get_hwnd_by_name(self.window_name)
-                if hwnd:
-                    break
-                sleep(1)
+
+            for waiting_for_spawn in range(30):
+                try:
+                    hwnd = get_hwnd_by_name(self.window_name)
+                    if hwnd:
+                        break
+                    sleep(1)
+                except Exception:
+                    sleep(1)
         else:
             print(f"found Emulator for '{self.name}' on port: {self.port}")
         sleep(2)
@@ -44,7 +48,12 @@ class Emu(Thread):
         x, y, xz, yz = self.coords
         window.moveTo(x, y)
         window.resizeTo(xz, yz)
-        win32gui.SetForegroundWindow(hwnd)
+        try:
+            win32gui.SetForegroundWindow(hwnd)
+        except Exception as e:
+            self.kill()
+            sleep(30)
+            self.run()
         self.device = androidAutomate.Device(f'emulator-{self.port}', verbose=False)
         self.device.clear_clipboard()
 

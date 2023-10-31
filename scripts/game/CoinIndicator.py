@@ -13,7 +13,7 @@ class CoinIndicator(FunctionNameDecorator):
 
     @name
     def calculate_region_by_coin(self, start_coords, coin):
-        x, y, xz, yz = coin
         a, b = start_coords
+        x, y, xz, yz = coin
         return  a, b, (x - a), yz
 

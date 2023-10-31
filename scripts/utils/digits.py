@@ -1,10 +1,11 @@
 from PIL import Image
 import pytesseract
 
-try:
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Users\Sintax\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'  # For Windows
-except Exception:
-    pass
+# try:
+#     pytesseract.pytesseract.tesseract_cmd = r'C:\Users\Sintax\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'  # For Windows
+# except Exception:
+#     pass
+
 
 def recognize_digits(image_path):
     # Open the image
@@ -18,7 +19,7 @@ def recognize_digits(image_path):
 
     text = ''.join([letter for letter in text if letter.isdigit()])
 
-    # convert to integer | note: no isdigit() necessary because of tessedit_char_whitelist
+    # convert to integer
     if text:
         digit = int(text)
     else:

@@ -11,15 +11,22 @@ regs = di.get('pil_regs')
 
 
 class Determinator2(FunctionNameDecorator):
-    def __init__(self, mp, mpysin, emu, motivator):
+    def __init__(self, mp, mpysin, emu, motivator, scrollator):
         FunctionNameDecorator.__init__(self, mp.print)
         self.mp = mp
         self.mpysin = mpysin
         self.emu = emu
         self.motivator = motivator
+        self.scrollator = scrollator
+
+        self.first_toggle = True
 
     @name
     def reset_filters(self):
+        if self.first_toggle:
+            self.first_toggle = False
+        else:
+            self.scrollator.scroll('transfer_menu', 'up')
         reset_name_btn = self.mpysin.locate(**pics.reset_player_name_btn)
         if reset_name_btn:
             self.mpysin.click(*reset_name_btn)
@@ -27,7 +34,7 @@ class Determinator2(FunctionNameDecorator):
         if reset_filter_btn:
             self.mpysin.click(*reset_filter_btn)
             # print(reset_filter_btn)
-        self.scroll_down_inside_transfer_menu()
+        self.scrollator.scroll('transfer_menu', 'down')
         expected_color = 252, 252, 247  # white
         reset_bid_price_pixel = 1288, 1538
         if self.mpysin.pixel_matches_color(reset_bid_price_pixel, expected_color, tolerance=25):
@@ -35,16 +42,18 @@ class Determinator2(FunctionNameDecorator):
         reset_buy_price_pixel = 1287, 2144
         if self.mpysin.pixel_matches_color(reset_buy_price_pixel, expected_color, tolerance=25):
             self.mpysin.click(*reset_buy_price_pixel)
-        self.scroll_up_inside_transfer_menu()
+        self.scrollator.scroll('transfer_menu', 'up')
 
     @name
     def enter_name(self, player):
         type_player_name = self.mpysin.locate(**pics.type_player_name)
-        if not type_player_name:
-            raise Exception('type_player_name not found')
-        x, y = type_player_name
-        x += 500
-        self.mpysin.click(x, y, dur=2)
+        if type_player_name:
+            x, y = type_player_name
+            x += 500
+            self.mpysin.click(x, y, dur=2)
+        else:
+            self.mpysin.click(1100, 630, dur=2)  # fallback
+
         self.mpysin.typewrite(player.name, dur=2)
         self.mpysin.back()
 
@@ -53,8 +62,8 @@ class Determinator2(FunctionNameDecorator):
         selected = False
         player_name_not_found = self.mpysin.locate(**pics.player_name_not_found, find=False)
         if player_name_not_found:
-            self.motivator.punish_player(player)
-            # ToDo nicetohave Blacklist Player
+            self.mp.print('ToDo nice to have negative-list Player')
+            # ToDo nice to have negative-list Player
         else:
             sleep(.25)
             self.mp.print('looking for player results')
@@ -81,7 +90,7 @@ class Determinator2(FunctionNameDecorator):
                         self.mpysin.click(*pyautogui.center((a, b, az, bz)))
                         selected = True
             # print(f'generator_results: {selected}')
-            return selected
+        return selected
 
     @name
     def select_quality(self, player):
@@ -99,10 +108,6 @@ class Determinator2(FunctionNameDecorator):
         if searched_player_rarity:
             self.mpysin.click(*searched_player_rarity, 2)
 
-    def scroll_down_inside_transfer_menu(self):  # TODO Test
-        self.mpysin.drag(535, 1452, 535, 145, 500)
-        rs.sleep(.5)
-
     @name
     def enter_price(self, player):
         if self.mpysin.check_point(**pics.transfer_menu_scroll_to_price_checkpoint):
@@ -111,11 +116,12 @@ class Determinator2(FunctionNameDecorator):
             enter_price_checkpoint_2 = self.mpysin.check_point(**pics.enter_price_checkpoint)
             if enter_price_checkpoint_2:
                 self.mpysin.typewrite(player.pc)
-                self.mpysin.back()
+                # self.mpysin.back()
 
     @name
     def search_player(self):
-        search_btn = self.mpysin.wait_for(5, 1, **pics.search_btn)
+        # search_btn = self.mpysin.wait_for(5, 1, **pics.search_btn)
+        search_btn = self.mpysin.locate(**pics.search_btn)
         if search_btn:
             self.mpysin.click(*search_btn, 2)
 
@@ -123,12 +129,15 @@ class Determinator2(FunctionNameDecorator):
     def get_price_from_input_field(self):
         if not self.mpysin.check_point(**pics.transfers_market_checkpoint):
             return
-        self.mpysin.click(705, 2550)
-        txt = self.emu.copy_text()
-        if txt:
-            txt = txt.replace(',', '').replace('.', '')
-            txt = int(txt)
-        return txt
+        return self.mpysin.read_numbers(**regs.buy_now_input_field)
+
+        # self.mpysin.click(705, 2550)
+        # txt = self.emu.copy_text()
+        # if txt:
+        #     txt = txt.replace(',', '').replace('.', '')
+        #     if txt:
+        #         txt = int(txt)
+        # return txt
 
     @name
     def get_best_optimized_price(self):
@@ -138,7 +147,3 @@ class Determinator2(FunctionNameDecorator):
     def get_determined_price(self):
         return self.get_price_from_input_field()
 
-    @name
-    def scroll_up_inside_transfer_menu(self):
-        self.mpysin.drag(740, 770, 740, 2080, 500)
-        rs.sleep(.5)

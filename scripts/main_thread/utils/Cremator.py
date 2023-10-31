@@ -1,3 +1,5 @@
+from time import sleep
+
 from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
 from scripts.DI.DI import di
 
@@ -23,4 +25,5 @@ class Cremator(FunctionNameDecorator):
         if not decrement_btn:
             return
         for _ in range(i):
-            self.mpysin.click(*decrement_btn, dur=.05)
+            self.mpysin.click(*decrement_btn, dur=0)
+            sleep(.08672)

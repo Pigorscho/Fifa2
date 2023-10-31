@@ -3,18 +3,20 @@
 from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
 from scripts.DI.DI import di
 from scripts.game.CoinIndicator import CoinIndicator
+from scripts.utils.PILRegs import reg_params
 
 pics = di.get('pics')
 rs = di.get('rs')
 
 
 class Vendor2(FunctionNameDecorator):
-    def __init__(self, mp, mpysin, cremator):
+    def __init__(self, mp, mpysin, cremator, scrollator):
         FunctionNameDecorator.__init__(self, mp.print)
         self.coin_indicator = CoinIndicator(mp, mpysin)
         self.mp = mp
         self.mpysin = mpysin
         self.cremator = cremator
+        self.scrollator = scrollator
 
         self.coin_start_points_map = {
             0: (342, 640),
@@ -42,8 +44,13 @@ class Vendor2(FunctionNameDecorator):
     @name
     def navigate_to_transfer_market_menu(self):
         self.mpysin.back(dur=2)
+        self.mpysin.check_point(**pics.transfers_market_checkpoint)
+        self.scrollator.scroll('transfer_menu', 'down')
+
+    @name
+    def navigate_to_search_results(self):
         self.mpysin.back(dur=2)
-        self.mpysin.check_point(**pics.transfers_menu_checkpoint)
+        self.mpysin.check_point(**pics.search_results_checkpoint)
 
     @name
     def locate_arrows(self):
@@ -63,10 +70,11 @@ class Vendor2(FunctionNameDecorator):
 
         numbers = []
         for i, arrow in enumerate(arrows):
-            coin = self.mpysin.locate(**pics.__getattribute__(f'coin_result_{i}'), screen=False)
+            pic = pics.__getattribute__(f'coin_result_{i}')
+            coin = self.mpysin.locate(**pic, center=False, screen=False)
             start_point = self.coin_start_points_map[i]
-            region = self.coin_indicator.calculate_region_by_coin(start_point, coin)
-            number = self.mpysin.read_numbers(region, screen=False)
+            pil_region = reg_params(self.coin_indicator.calculate_region_by_coin(start_point, coin))
+            number = self.mpysin.read_numbers(**pil_region, screen=False)
             numbers.append(number)
         if numbers:
             smallest_number = min(numbers)
@@ -87,12 +95,16 @@ class Vendor2(FunctionNameDecorator):
 
     @name
     def approve_purchase(self, player):
-        approved = bool(self.mpysin.locate(**pics.purchase_approved))
+        approved = bool(self.mpysin.wait_for(10, .1, **pics.purchase_approved))
         if approved:
-            coin = self.mpysin.locate(**pics.approved_status_coin)
-            region = self.coin_indicator.calculate_region_by_coin(self.coin_approve_point, coin)
-            number = self.mpysin.read_numbers(region)
+            coin = self.mpysin.locate(**pics.approved_status_coin, center=False)
+            pil_region = reg_params(self.coin_indicator.calculate_region_by_coin(
+                self.coin_approve_point, coin
+            ))
+            number = self.mpysin.read_numbers(**pil_region)
             player.bought_price = number
+        else:
+            self.navigate_to_search_results()
         return approved
 
     @name
@@ -100,10 +112,6 @@ class Vendor2(FunctionNameDecorator):
         list_on_transfer_market_btn = self.mpysin.locate(**pics.list_on_transfer_market_btn)
         self.mpysin.click(*list_on_transfer_market_btn, dur=1)
 
-    @name
-    def scroll_down_inside_selling_menu(self):
-            self.mpysin.drag(535, 1452, 535, 145, 500) #ToDo check if this is correct
-            rs.sleep(.5)
 
     @name
     def enter_sell_price(self, player):
@@ -114,10 +122,17 @@ class Vendor2(FunctionNameDecorator):
         enter sell price
         :return:
         """
-        self.mpysin.click(700, 1075)
+        self.mpysin.click(667, 1080)
         self.mpysin.typewrite(player.sell_price)
-        self.mpysin.click(700, 1360)
+        self.mpysin.click(667, 1362)
         self.mpysin.typewrite(player.sell_price)
+        # self.mpysin.back()  # to close keyboard
+        item_detail_checkpoint = self.mpysin.check_point(**pics.item_detail_checkpoint, out=True)
+        if not item_detail_checkpoint:
+            self.mp.print('returning from enter_sell_price due to critical un-found location')
+            return
+        self.mpysin.click(*item_detail_checkpoint)
+
 
     @name
     def send_to_auction(self):

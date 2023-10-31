@@ -8,19 +8,20 @@ class RSleep:
         """Calculate a random time close to the given seconds."""
         tolerance = 0.1
 
-        while True:
-            if seconds == 0:
-                random_time = 0
-            elif seconds <= 1:
-                random_time = random.uniform(0.7, 1.3)
-            elif seconds <= 2:
-                random_time = random.uniform(1.6, 2.4)
-            else:
-                random_time = random.uniform(seconds - 0.5, seconds + 0.5)
+        if seconds == 0:
+            random_time = 0
+        else:
+            while True:
+                if seconds <= 1:
+                    random_time = random.uniform(0.7, 1.3)
+                elif seconds <= 2:
+                    random_time = random.uniform(1.6, 2.4)
+                else:
+                    random_time = random.uniform(seconds - 0.5, seconds + 0.5)
 
-            # Check if the random time is too close to a perfect number
-            if abs(random_time - round(random_time)) > tolerance:
-                break
+                # Check if the random time is too close to a perfect number
+                if abs(random_time - round(random_time)) > tolerance:
+                    break
 
         return random_time
 

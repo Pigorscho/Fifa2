@@ -57,26 +57,38 @@ class Motivator(FunctionNameDecorator):
         returns if is profitable in the long run range -2 to 2
         :return:
         """
-        profitability = 0
+        profitability = 5
 
         if player.name in self.performance_list and player.quality in self.performance_list[player.name]:
             entries = self.performance_list[player.name][player.quality]
             if len(entries) > self.PROFITABILITY_THRESHOLD:
-                """
-                # do math here
-                durchschnitt(profits) * 3 / durchschnitt(bought_prices)
-                """
-                info = ((entry['profit'], entry['bought_price']) for entry in entries)
-                profits, bought_prices = zip(*info)
+                skip_count = 0
+                profits = []
+                bought_prices = []
+                for entry in entries:
+                    profit = entry['profit']
+                    bought_price = entry['bought_price']
+                    if profit and bought_price:
+                        profits.append(profit)
+                        bought_prices.append(bought_price)
+                    else:
+                        skip_count += 1
+                # if not profitability:
+                #     profitability = 5
+                if profits and bought_prices:
+                    average_profit = sum(profits) / len(profits)
+                    average_bought_price = sum(bought_prices) / len(bought_prices)
+                    profitability = min(1, (average_profit * 3) / average_bought_price)
+                    new_min = -2
+                    new_max = 2
+                    profitability = (profitability * (new_max - new_min)) + new_min
+                    profitability = round(profitability)
+                if skip_count > 0:
+                    for i in range(skip_count):
+                        profitability -= 1
+                    if profitability < 0:
+                        profitability = 0
 
-                average_profit = sum(profits) / len(profits)
-                average_bought_price = sum(bought_prices) / len(bought_prices)
-                profitability = min(1, (average_profit * 3) / average_bought_price)
-                new_min = -2
-                new_max = 2
-                profitability = (profitability * (new_max - new_min)) + new_min
-                profitability = round(profitability)
-                # todo del latestest entries until len(10)
         return profitability
 
     @name

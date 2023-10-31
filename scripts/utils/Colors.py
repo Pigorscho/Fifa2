@@ -21,6 +21,7 @@ class Colors:
     BG_CYAN = '\033[46m'
     BG_WHITE = '\033[47m'
 
+
 class _Colors:
     BOLD = '\033[1m'
     ITALIC = '\033[3m'

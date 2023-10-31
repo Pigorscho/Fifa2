@@ -29,9 +29,13 @@ class ManuPysin(FunctionNameDecorator):
         rs.sleep(dur)
 
     def drag(self, *args, **kwargs):
+        if 'dur' in kwargs:
+            dur = kwargs['dur']
+            del kwargs['dur']
+        else:
+            dur = 1
         self.emu.drag(*args, **kwargs)
-        dur = 1 if 'dur' not in args else args[args.index('dur')]
-        rs.sleep(dur)
+        sleep(dur)  # intentionally no rs.sleep
 
     def typewrite(self, to_type, dur=1):
         self.emu.typewrite(to_type)
@@ -214,10 +218,10 @@ class ManuPysin(FunctionNameDecorator):
         return self.check_point(*args, **kwargs)
 
     @name
-    def check_point(self, pic, con=.9, reg=None, reverse=False, i=5, dur=1):
+    def check_point(self, pic, con=.9, reg=None, reverse=False, i=5, dur=1, out=False):
         self.mp.print(f"checkpointing '{pic}'")
         location = self.wait_for(i, dur, pic, con, reg, reverse)
-        checked = bool(location)
+        checked = location if out else bool(location)
         # if (not reverse and not checked) or (reverse and checked):
         if not (reverse ^ checked):
             self.mp.print(f"could not assert '{pic}'", color=Colors.RED)

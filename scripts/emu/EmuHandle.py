@@ -58,11 +58,9 @@ class EmuHandle:
             new = False if hwnd else True
             if new:
                 opened = True
-
             self.emu_map[account]['emu'] = Emu(new=new, name=account, info=info)
             self.emu_map[account]['emu'].start()
             sleep(2)
-
         sleep(3)
         if opened:
             print('waiting for emu(s) to spawn')

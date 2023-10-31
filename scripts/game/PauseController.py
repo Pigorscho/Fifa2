@@ -3,7 +3,7 @@ from random import randint
 
 
 class PauseController():
-    MIN_ITERATIONS = 1
+    MIN_ITERATIONS = 2
     MAX_ITERATIONS = 5
     AUTO_PAUSE_DUR = 30
     FORCE_PAUSE_DUR = 10
@@ -31,7 +31,7 @@ class PauseController():
         elif self.iterations >= self.MAX_ITERATIONS:
             do_pause = True
         else:
-            do_pause = randint(0, 1) == 0  # fifty fifty
+            do_pause = randint(0, 2) == 0  # 1/3 chance
             self.mp.print('magic 8 ball decided to take a nap')
         self.iterations += 1
 

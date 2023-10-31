@@ -1,6 +1,7 @@
 
 from scripts.main_thread.utils.decorators import FunctionNameDecorator, name
 from scripts.DI.DI import di
+from scripts.utils.Colors import Colors
 
 from scripts.game.Determinator2 import Determinator2
 
@@ -10,19 +11,23 @@ pics = di.get('pics')
 class Determinator(FunctionNameDecorator):
     DETERMINATOR_THRESHOLD = 15
 
-    def __init__(self, mp, mpysin, emu, cremator, result_checker, motivator):
+    def __init__(self, mp, mpysin, emu, cremator, result_checker, motivator, scrollator):
         FunctionNameDecorator.__init__(self, mp.print)
-        self.sub_determinator = Determinator2(mp, mpysin, emu, motivator)
+        self.sub_determinator = Determinator2(mp, mpysin, emu, motivator, scrollator)
         self.mp = mp
         self.mpysin = mpysin
         self.emu = emu
         self.cremator = cremator
         self.result_checker = result_checker
         self.decrement_count = 0
+        self.motivator = motivator
+        self.scrollator = scrollator
 
+    @name
     def run(self, player):
-        best_optimized_price = None
+        determined = False
 
+        best_optimized_price = None
         determined_price = self.determine_best_price(player)  # plus minus kacka: die erste
         player.determined_buy_price = determined_price
         if determined_price:
@@ -30,40 +35,24 @@ class Determinator(FunctionNameDecorator):
             self.enter_optimized_price(optimized_price)
             self.decrement_search_price(i=2)  # guarantee no loss
             best_optimized_price = self.sub_determinator.get_best_optimized_price()
-        player.best_optimized_price = best_optimized_price
+            player.best_optimized_price = best_optimized_price
         sell_price = None
         if best_optimized_price:
-            sell_price = int(best_optimized_price * 1.05)
-        else:
-            self.mpysin.back()
+            sell_price = int(determined_price * 1.05)
         player.sell_price = sell_price
 
-        return best_optimized_price
+        if not best_optimized_price:
+            self.motivator.punish_player(player)
+            if self.mpysin.locate(**pics.search_results_checkpoint):
+                self.mpysin.back()
+        else:
+            self.search_player_again()
+            determined = True
+
+        return determined
 
     @name
     def determine_best_price(self, player):
-        """
-
-        :return: False if shall be punished and skipped onto next player
-        """
-        """
-        # self.checkpoint transfer Market
-        # enter player name
-        # select due rating
-        # select quality
-        # select rarity
-        # enter internet_buy price
-        search_results
-        if no results
-            self.back() # -> entered search price criteria too low
-            increment search price
-        if too many results
-            self.back() # -> entered search price criteria too high
-            decrement search price
-        if results good
-            save price
-            self.back()
-        """
         determined_price = None
 
         if not self.mpysin.check_point(**pics.transfers_market_checkpoint):
@@ -74,17 +63,19 @@ class Determinator(FunctionNameDecorator):
         if selected:
             self.sub_determinator.select_quality(player)
             self.sub_determinator.select_rarity(player)
-            self.sub_determinator.scroll_down_inside_transfer_menu()
+            self.scrollator.scroll('transfer_menu', 'down')
             self.sub_determinator.enter_price(player)
             self.sub_determinator.search_player()
 
             results = None
             for determining in range(self.DETERMINATOR_THRESHOLD):
-                self.mp.print(f'determine_counter: {self.DETERMINATOR_THRESHOLD - determining}')
+                self.mp.print(
+                    f'determine_counter: {self.DETERMINATOR_THRESHOLD - determining} / {self.DETERMINATOR_THRESHOLD}',
+                    color=Colors.YELLOW
+                )
                 results = self.result_checker.check_results()
-                self.mp.print(f'results: {results}')
                 self.mpysin.back()
-                self.sub_determinator.scroll_down_inside_transfer_menu()
+                self.scrollator.scroll('transfer_menu', 'down')
                 if results == 'good_results':
                     determined_price = self.sub_determinator.get_determined_price()
                     break
@@ -101,8 +92,8 @@ class Determinator(FunctionNameDecorator):
                     self.decrement_search_price(i=self.decrement_count)
 
                 self.search_player_again()
-            if results == 'good_results':
-                self.search_player_again()
+            # if results == 'good_results':
+            #     self.search_player_again()
 
         return determined_price
 
@@ -112,10 +103,8 @@ class Determinator(FunctionNameDecorator):
         self.click max search price
         enter optimized price
         """
-        self.mpysin.back()
         if not self.mpysin.checkpoint(**pics.transfers_market_checkpoint):
             return
-        self.sub_determinator.scroll_down_inside_transfer_menu()
         self.mpysin.click(705, 2550)
         self.mpysin.typewrite(optimized_price)
         self.mpysin.back()
@@ -143,18 +132,3 @@ class Determinator(FunctionNameDecorator):
             return
         search_btn = self.mpysin.locate(**pics.search_btn)
         self.mpysin.click(*search_btn)
-
-    # def refresh(self):
-    #     pass
-    #
-    # def buy_player(self):
-    #     pass
-    #
-    # def sell_player(self):
-    #     pass
-    #
-    # def reward_player(self):
-    #     pass
-    #
-    # def punish_player(self):
-    #     pass
